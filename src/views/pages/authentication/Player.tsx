@@ -45,6 +45,8 @@ import icon_centure from "../../../../public/image/ai_sb/icon_centrre.png";
 import icon_sub from "../../../../public/image/ai_sb/icon_sub.png";
 import bg_sb from "../../../../public/image/ai_sb/bg-sb.jpg";
 
+import userGuide from "../../../../public/file/test.pdf";
+
 export default function Player() {
   return (
     <div className="player-wrapper">
@@ -199,7 +201,7 @@ export default function Player() {
                 </div>
               </div>
             </CarouselItem> */}
-           
+
             <CarouselItem>
               <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
                 {/* Layer 1: Background - Dưới cùng */}
@@ -233,25 +235,24 @@ export default function Player() {
                   </div>
                 </div>
 
-                
-                  <div className="particles">
-                    {[...Array(25)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="particle"
-                        style={{
-                          left: `${Math.random() * 100}%`,
-                          top: `${Math.random() * 100}%`,
-                          animationDelay: `${Math.random() * 3}s`,
-                          animationDuration: `${3 + Math.random() * 4}s`,
-                        }}
-                      ></div>
-                    ))}
-                  </div>
+                <div className="particles">
+                  {[...Array(25)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="particle"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                        animationDelay: `${Math.random() * 3}s`,
+                        animationDuration: `${3 + Math.random() * 4}s`,
+                      }}
+                    ></div>
+                  ))}
+                </div>
               </div>
             </CarouselItem>
 
-             <CarouselItem>
+            <CarouselItem>
               <div className="tv-frame">
                 <div className="tv-bezel">
                   <div className="tv-screen">
@@ -293,6 +294,57 @@ export default function Player() {
                 <div className="tv-stand">
                   <div className="tv-stand-neck"></div>
                   <div className="tv-stand-base"></div>
+                </div>
+              </div>
+            </CarouselItem>
+
+            <CarouselItem>
+              <div className="tv-frame">
+                <div className="tv-bezel">
+                  <div className="tv-screen">
+                    <iframe
+                      src={userGuide}
+                      className="w-full h-full border-0"
+                      title="PDF Viewer"
+                    />
+                  </div>
+                </div>
+
+                <div className="tv-stand">
+                  <div className="flex flex-col items-center gap-1 mt-2">
+                    <p className="text-gray-700 font-medium text-lg">
+                      Tài liệu hướng dẫn cách dùng
+                    </p>
+                    <a
+                      href={userGuide}
+                      download="huong-dan-su-dung.pdf"
+                      className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-5 py-2.5 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
+                    >
+                      {/* PDF Icon */}
+                      <svg
+                        className="w-6 h-6"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18.5,9H13V3.5L18.5,9M6,20V4H12V10H18V20H6Z" />
+                      </svg>
+                      <span className="font-semibold">Tải về PDF</span>
+                      {/* Download arrow */}
+                      <svg
+                        className="w-4 h-4 ml-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                        />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
             </CarouselItem>
