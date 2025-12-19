@@ -22,10 +22,7 @@ const ChatHistory = ({
   onDeleteSession,
   isLoading = false,
 }: ChatHistoryProps) => {
-
-  useEffect(() => {
-    
-  },[currentSessionId]);
+  useEffect(() => {}, [currentSessionId]);
   return (
     <aside className="h-full bg-white border-r border-gray-200 flex flex-col shadow-lg">
       {/* Header */}
@@ -67,37 +64,49 @@ const ChatHistory = ({
               sessions.map((session) => (
                 <div
                   key={session.id}
-                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-green-50 group relative ${
+                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-green-50 group relative rounded-lg p-2 sm:p-3 ${
                     currentSessionId === session.id
-                      ? "bg-gradient-to-r from-[var(--color-primary-light)]/10 border to-[var(--color-secondary)]/10 border-[var(--color-primary-light)] shadow-sm"
-                      : "hover:bg-gray-50 border-gray-200"
+                      ? "bg-gradient-to-r from-[var(--color-primary-light)]/10 to-[var(--color-secondary)]/10 border-2 border-[var(--color-primary-light)] shadow-sm"
+                      : "border border-gray-200 hover:border-[var(--color-primary-light)]/30"
                   }`}
                   onClick={() => onSelectSession(session.id)}
                 >
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1">
-                      <h3 className="p-1 font-medium text-sm truncate text-green-950">
-                        {session.title}
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="flex-1 min-w-0">
+                      {/* Title */}
+                      <h3 className="font-medium text-sm sm:text-base truncate text-green-950 mb-1">
+                        {truncateText(session.title, 30)}
                       </h3>
+
+                      {/* Last Message */}
                       {session.lastMessage && (
-                        <p className="px-1 text-xs text-gray-500 truncate">
-                          {truncateText(session.lastMessage, 50)}
+                        <p className="text-[11px] sm:text-xs text-gray-500 truncate mb-1">
+                          <span className="hidden md:inline">
+                            {truncateText(session.lastMessage, 50)}
+                          </span>
+                          <span className="md:hidden">
+                            {truncateText(session.lastMessage, 25)}
+                          </span>
                         </p>
                       )}
-                      <p className="px-1 text-xs text-gray-400">
+
+                      {/* Message Count */}
+                      <p className="text-[10px] sm:text-xs text-gray-400">
                         {session.messageCount} tin nhắn
                       </p>
                     </div>
+
+                    {/* Delete Button */}
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 h-auto hover:bg-red-50"
+                      className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200 p-1 sm:p-1.5 h-auto hover:bg-red-50 flex-shrink-0"
                       onClick={(e) => {
                         e.stopPropagation();
                         onDeleteSession(session.id);
                       }}
                     >
-                      <Trash2 className="w-4 h-4 text-red-500 hover:text-red-600" />
+                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 hover:text-red-600" />
                     </Button>
                   </div>
                 </div>

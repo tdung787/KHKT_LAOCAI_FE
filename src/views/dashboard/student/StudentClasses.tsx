@@ -27,7 +27,7 @@ const StudentClasses = () => {
     selectedStudentClass,
     isLoading,
     getEnrollmentsByStudent,
-    setSelectedStudentClass
+    setSelectedStudentClass,
   } = useEnrollmentStore();
 
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -52,10 +52,12 @@ const StudentClasses = () => {
       setSelectedStudentClass(studentClasses[0]);
     }
   }, [studentClasses, selectedStudentClass, setSelectedStudentClass]);
-  console.log("Selected Student Class:", studentClasses, student)
+  console.log("Selected Student Class:", studentClasses, student);
 
   const handleClassSelect = (classId: string) => {
-    const selected = studentClasses.find(item => item.class_id.id === classId);
+    const selected = studentClasses.find(
+      (item) => item.class_id.id === classId
+    );
     setSelectedStudentClass(selected || null);
     setSelectedSubject("");
   };
@@ -82,7 +84,9 @@ const StudentClasses = () => {
         <aside className="lg:w-1/5 w-full space-y-2 p-2 bg-white dark:backdrop-blur-xl dark:bg-white/10 border border-white/20 ">
           <h3 className="font-semibold text-lg mb-2">Lớp học của tôi</h3>
           {studentClasses.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Bạn chưa đăng ký lớp học nào</p>
+            <p className="text-sm text-muted-foreground">
+              Bạn chưa đăng ký lớp học nào
+            </p>
           ) : (
             studentClasses.map((enrollment) => (
               <Card
@@ -97,7 +101,8 @@ const StudentClasses = () => {
                 <CardContent className="p-3">
                   <h4 className="font-medium">{enrollment.class_id.name}</h4>
                   <p className="text-xs text-muted-foreground">
-                    {enrollment.class_id.school_year} | Khối {enrollment.class_id.grade_level}
+                    {enrollment.class_id.school_year} | Khối{" "}
+                    {enrollment.class_id.grade_level}
                   </p>
                 </CardContent>
               </Card>
@@ -108,63 +113,70 @@ const StudentClasses = () => {
         {/* Nội dung chính: Tabs */}
         <main className="lg:w-4/5 w-full bg-white dark:backdrop-blur-xl dark:bg-white/10 border border-white/20 p-2.5">
           <Tabs defaultValue="students" className="w-full">
-            <div className="flex justify-between items-center">
-              <TabsList className="bg-[var(--color-secondary)] text-white text-xl">
-                <TabsTrigger
-                  value="assignments"
-                  disabled={!selectedSubject}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Bài tập
-                </TabsTrigger>
-                <TabsTrigger
-                  value="quiz"
-                  disabled={!selectedSubject}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Bài kiểm tra
-                </TabsTrigger>
-                <TabsTrigger
-                  value="grades"
-                  disabled={!selectedSubject}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Điểm số
-                </TabsTrigger>
-                <TabsTrigger
-                  value="documents"
-                  disabled={!selectedSubject}
-                  className="disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Tài liệu
-                </TabsTrigger>
-              </TabsList>
+            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
+              {/* TabsList - Scrollable trên mobile */}
+              <div className="overflow-x-auto pb-2 md:pb-0">
+                <TabsList className="bg-[var(--color-secondary)] text-white text-sm md:text-xl w-full md:w-auto inline-flex">
+                  <TabsTrigger
+                    value="assignments"
+                    disabled={!selectedSubject}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap px-2 md:px-4 "
+                  >
+                    Bài tập
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="quiz"
+                    disabled={!selectedSubject}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap px-2 md:px-4"
+                  >
+                    Bài kiểm tra
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="grades"
+                    disabled={!selectedSubject}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap px-2 md:px-4"
+                  >
+                    Điểm số
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="documents"
+                    disabled={!selectedSubject}
+                    className="disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap px-2 md:px-4"
+                  >
+                    Tài liệu
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-              <div className="flex flex-col items-end gap-1">
+              {/* Select Subject */}
+              <div className="flex flex-col items-start md:items-end gap-1 w-full md:w-auto">
                 <Select
                   onValueChange={handleSubjectChange}
                   value={selectedSubject}
                   disabled={!selectedStudentClass}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full md:w-[180px]">
                     <SelectValue placeholder="Chọn môn học" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Môn học</SelectLabel>
-                      {selectedStudentClass?.class_id.subject_ids.map((subjectId) => (
-                        <SelectItem key={subjectId} value={subjectId}>
-                          {subjectId === "690d75bcd9f6d86227089d81" && "Toán"}
-                          {subjectId === "690d75cfd9f6d86227089d85" && "Vật Lý"}
-                          {subjectId === "690d75d6d9f6d86227089d89" && "Hóa"}
-                          {subjectId === "690d75dad9f6d86227089d8d" && "Sinh"}
-                        </SelectItem>
-                      ))}
+                      {selectedStudentClass?.class_id.subject_ids.map(
+                        (subjectId) => (
+                          <SelectItem key={subjectId} value={subjectId}>
+                            {subjectId === "690d75bcd9f6d86227089d81" && "Toán"}
+                            {subjectId === "690d75cfd9f6d86227089d85" &&
+                              "Vật Lý"}
+                            {subjectId === "690d75d6d9f6d86227089d89" && "Hóa"}
+                            {subjectId === "690d75dad9f6d86227089d8d" && "Sinh"}
+                          </SelectItem>
+                        )
+                      )}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
                 {!selectedSubject && (
-                  <p className="text-xs text-amber-600 dark:text-amber-400">
+                  <p className="text-xs text-amber-600 dark:text-amber-400 text-left md:text-right">
                     * Chọn môn học để xem các tab khác
                   </p>
                 )}
@@ -173,7 +185,10 @@ const StudentClasses = () => {
 
             <TabsContent value="assignments">
               {selectedSubject && selectedStudentClass && (
-                <Assignment subjectId={selectedSubject} classId={selectedStudentClass.class_id.id} />
+                <Assignment
+                  subjectId={selectedSubject}
+                  classId={selectedStudentClass.class_id.id}
+                />
               )}
             </TabsContent>
             <TabsContent value="quiz">

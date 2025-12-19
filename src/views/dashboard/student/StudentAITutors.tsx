@@ -11,6 +11,20 @@ import { useChatBotStore } from "@/utility/stores/chatStore";
 import { useAuthStore } from "@/utility/stores/authStore";
 import { toast } from "sonner";
 
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
+import { FileClock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 export interface Message {
   id: string;
   role: "user" | "assistant";
@@ -33,6 +47,26 @@ export interface ChatSession {
 }
 
 const StudentAITutors = () => {
+  const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768); // md breakpoint
+      };
+
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+
+      return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    return isMobile;
+  };
+
+  const isMobile = useIsMobile();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const { user } = useAuthStore();
   const {
     createSession,
@@ -258,23 +292,72 @@ const StudentAITutors = () => {
     <div className="h-screen bg-gradient-to-br from-[var(--bg-light-start)] to-[var(--bg-light-end)] overflow-hidden">
       <ResizablePanelGroup direction="horizontal" className="h-full">
         {/* Chat History Panel */}
-        <ResizablePanel
-          defaultSize={25}
-          minSize={20}
-          maxSize={40}
-          className="bg-white"
-        >
-          <div className="h-full overflow-hidden">
-            <ChatHistory
-              sessions={sessions}
-              currentSessionId={currentSessionId}
-              onSelectSession={handleSelectSession}
-              onNewChat={handleNewChat}
-              onDeleteSession={handleDeleteSession}
-              isLoading={isLoading}
-            />
+        {!isMobile ? (
+          <ResizablePanel
+            defaultSize={25}
+            minSize={20}
+            maxSize={40}
+            className="bg-white"
+          >
+         
+              <div className="h-full overflow-hidden">
+                <ChatHistory
+                  sessions={sessions}
+                  currentSessionId={currentSessionId}
+                  onSelectSession={handleSelectSession}
+                  onNewChat={handleNewChat}
+                  onDeleteSession={handleDeleteSession}
+                  isLoading={isLoading}
+                />
+              </div>
+         
+          </ResizablePanel>
+        ) : (
+          <div >
+       
+              <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+                <DrawerTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="default"
+                    className="fixed rounded-t-none top-21 left-3 z-50 md:hidden"
+                  >
+                    <FileClock  className="h-5 w-5" /> lịch sử chát
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>Lịch sử chat</DrawerTitle>
+                    <DrawerDescription>
+                      Chọn một phiên chat để tiếp tục
+                    </DrawerDescription>
+                  </DrawerHeader>
+                  <div className="h-[60vh] overflow-y-auto px-4">
+                    <ChatHistory
+                      sessions={sessions}
+                      currentSessionId={currentSessionId}
+                      onSelectSession={(id) => {
+                        handleSelectSession(id);
+                        setDrawerOpen(false); // Đóng drawer sau khi chọn
+                      }}
+                      onNewChat={() => {
+                        handleNewChat();
+                        setDrawerOpen(false);
+                      }}
+                      onDeleteSession={handleDeleteSession}
+                      isLoading={isLoading}
+                    />
+                  </div>
+                  <DrawerFooter>
+                    <DrawerClose asChild>
+                      <Button variant="outline">Đóng</Button>
+                    </DrawerClose>
+                  </DrawerFooter>
+                </DrawerContent>
+              </Drawer>
+          
           </div>
-        </ResizablePanel>
+        )}
 
         {/* Resizable Handle */}
         <ResizableHandle

@@ -1,40 +1,40 @@
-import { FC } from 'react';
-import { useOnlineUsers } from '@/services/useOnlineUsers';
-import { Circle } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
-import { vi } from 'date-fns/locale';
+import { FC } from "react";
+import { useOnlineUsers } from "@/services/useOnlineUsers";
+import { Circle } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { vi } from "date-fns/locale";
 
 interface OnlineStatusBadgeProps {
   userId: string;
   showLabel?: boolean;
   showLastSeen?: boolean; // ✅ Hiển thị "Hoạt động X phút trước"
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 const OnlineStatusBadge: FC<OnlineStatusBadgeProps> = ({
   userId,
   showLabel = false,
   showLastSeen = true, // ✅ Mặc định hiển thị
-  size = 'md',
+  size = "md",
 }) => {
   const { isUserOnline, getLastSeen } = useOnlineUsers();
   const online = isUserOnline(userId);
   const lastSeenAt = getLastSeen(userId);
 
   const sizeClasses = {
-    sm: 'w-2 h-2',
-    md: 'w-3 h-3',
-    lg: 'w-4 h-4',
+    sm: "w-2 h-2",
+    md: "w-3 h-3",
+    lg: "w-4 h-4",
   };
 
   // ✅ Format last seen
   const getLastSeenText = () => {
     if (online) {
-      return 'Online';
+      return "Online";
     }
 
     if (!lastSeenAt) {
-      return 'Offline';
+      return "Offline";
     }
 
     try {
@@ -43,7 +43,7 @@ const OnlineStatusBadge: FC<OnlineStatusBadgeProps> = ({
         locale: vi,
       })}`;
     } catch (error) {
-      return 'Offline';
+      return "Offline";
     }
   };
 
@@ -52,16 +52,20 @@ const OnlineStatusBadge: FC<OnlineStatusBadgeProps> = ({
       <div className="flex items-center gap-1.5">
         <Circle
           className={`${sizeClasses[size]} ${
-            online ? 'text-green-500 fill-green-500' : 'text-gray-400 fill-gray-400'
+            online
+              ? "text-green-500 fill-green-500"
+              : "text-gray-400 fill-gray-400"
           }`}
           strokeWidth={3}
         />
         <span
-          className={`text-xs font-medium ${
-            online ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'
+          className={`hidden md:inline text-xs font-medium ${
+            online
+              ? "text-green-600 dark:text-green-400"
+              : "text-gray-500 dark:text-gray-400"
           }`}
         >
-          {showLastSeen ? getLastSeenText() : online ? 'Online' : 'Offline'}
+          {showLastSeen ? getLastSeenText() : online ? "Online" : "Offline"}
         </span>
       </div>
     );
@@ -70,7 +74,7 @@ const OnlineStatusBadge: FC<OnlineStatusBadgeProps> = ({
   return (
     <Circle
       className={`${sizeClasses[size]} ${
-        online ? 'text-green-500 fill-green-500' : 'text-gray-400 fill-gray-400'
+        online ? "text-green-500 fill-green-500" : "text-gray-400 fill-gray-400"
       }`}
       strokeWidth={3}
     />
