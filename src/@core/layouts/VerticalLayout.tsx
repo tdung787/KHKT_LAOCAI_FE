@@ -36,11 +36,12 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
     typeof window !== "undefined" ? window.innerWidth : 1200
   );
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  const location = useLocation(); // 👈 Lấy URL hiện tại
-  const isAITutorPage = location.pathname.includes("/student/dashboard/ai-tutors");
-  // console.log("isAITutorPageisAITutorPageisAITutorPage",isAITutorPage);
 
+  const location = useLocation(); // 👈 Lấy URL hiện tại
+  const isAITutorPage = location.pathname.includes(
+    "/student/dashboard/ai-tutors"
+  );
+  // console.log("isAITutorPageisAITutorPageisAITutorPage",isAITutorPage);
 
   // Track scroll position
   useEffect(() => {
@@ -148,28 +149,52 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
         } transition-all duration-300`}
       >
         {/* Navbar - Pure Tailwind */}
-        {navbar && isAITutorPage === false && (
-          <header
-            className={`
-              sticky   rounded-xl z-30
-              transition-all duration-300 ease-in-out
-              ${
-                isScrolled
-                  ? "top-[15px] mx-3.5 bg-white/10 dark:bg-white/5 backdrop-blur-xl  dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
-                  : "top-0 mx-0  bg-transparent"
-              }
-            `}
-          >
-            {/* Clone navbar element and inject props if it's a valid React element */}
-            {isValidElement(navbar)
-              ? cloneElement(navbar, navbarProps as unknown as object)
-              : navbar}
-          </header>
+        {navbar && (
+          <>
+            {/* Navbar cho trang AI Tutor - Màu đỏ */}
+            {isAITutorPage && (
+              <header
+                className={`
+                   sm:hidden
+          sticky top-[15px] mx-3.5 rounded-xl z-30
+          transition-all duration-300 ease-in-out
+          bg-red-500/90 dark:bg-red-600/80 
+          backdrop-blur-xl 
+
+          shadow-[0_8px_32px_0_rgba(220,38,38,0.4)] 
+          dark:shadow-[0_8px_32px_0_rgba(220,38,38,0.3)]
+        `}
+              >
+                {isValidElement(navbar)
+                  ? cloneElement(navbar, navbarProps as unknown as object)
+                  : navbar}
+              </header>
+            )}
+
+            {/* Navbar cho các trang khác - Logic cũ */}
+            {!isAITutorPage && (
+              <header
+                className={`
+          sticky rounded-xl z-30
+          transition-all duration-300 ease-in-out
+          ${
+            isScrolled
+              ? "top-[15px] mx-3.5 bg-white/10 dark:bg-white/5 backdrop-blur-xl dark:border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]"
+              : "top-0 mx-0 bg-transparent"
+          }
+        `}
+              >
+                {isValidElement(navbar)
+                  ? cloneElement(navbar, navbarProps as unknown as object)
+                  : navbar}
+              </header>
+            )}
+          </>
         )}
 
         {/* Content */}
-   <main
-  className="
+        <main
+          className="
     p-1
     dark:my-3.5
     flex-1 
@@ -194,9 +219,9 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
     before:opacity-50
     before:-z-10
   "
->
-  {children}
-</main>
+        >
+          {children}
+        </main>
 
         {/* Footer - Glass Effect */}
         {footer && (

@@ -85,17 +85,17 @@ export const columns: ColumnDef<Student>[] = [
       </div>
     ),
   },
-  {
-    accessorKey: "student_code",
-    header: "Mã học sinh",
-    cell: ({ row }) => (
-      <div>
-        <div className="font-semibold text-gray-900 dark:text-gray-100">
-          {row.original.student_code}
-        </div>
+ {
+  accessorKey: "student_code",
+  header: () => <div className="hidden md:block">Mã học sinh</div>,
+  cell: ({ row }) => (
+    <div className="hidden md:block">
+      <div className="font-semibold text-gray-900 dark:text-gray-100">
+        {row.original.student_code}
       </div>
-    ),
-  },
+    </div>
+  ),
+},
   {
     accessorKey: "user_id.full_name",
     header: "Họ và tên",
@@ -107,20 +107,20 @@ export const columns: ColumnDef<Student>[] = [
       </div>
     ),
   },
-  {
-    accessorKey: "school_name",
-    header: "Trường",
-    cell: ({ row }) => (
-      <span className="text-sm text-gray-600 dark:text-gray-400">
-        {row.original.school_name}
-      </span>
-    ),
-  },
+{
+  accessorKey: "school_name",
+  header: () => <div className="hidden md:block">Trường</div>,
+  cell: () => (
+    <span className="hidden md:inline text-sm text-gray-600 dark:text-gray-400">
+    Nguyễn Tất Thành
+    </span>
+  ),
+},
   {
     id: "actions",
     header: "Thao tác",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center ">
        <EvaluatedStudentDialog userId={row.original.user_id._id} studentCode={row.original.student_code} />
        <SentNotificationsDialog userId={row.original.user_id._id} />
       </div>

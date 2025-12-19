@@ -40,7 +40,6 @@ import { columns } from "./student_table/Column";
 import { useOnlineUsers } from "@/services/useOnlineUsers";
 import { UserRole } from "../../siderbar";
 
-
 export interface IUser {
   _id: string;
   username: string;
@@ -121,7 +120,7 @@ const StudentsTable = ({ classId }: StudentsTableProps) => {
       status: enrollment.status,
       attendance_count: enrollment.attendance_count,
       enrollment_date: enrollment.enrollment_date,
-      isOnline: checkUserOnline(enrollment.student_id.user_id._id), 
+      isOnline: checkUserOnline(enrollment.student_id.user_id._id),
     }));
   }, [enrollments, onlineUsers]); // ✅ Thêm onlineUsers vào dependency
 
@@ -155,7 +154,7 @@ const StudentsTable = ({ classId }: StudentsTableProps) => {
 
   const table = useReactTable({
     data: filteredData,
-    columns: columns  as ColumnDef<Student>[],
+    columns: columns as ColumnDef<Student>[],
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
@@ -183,14 +182,14 @@ const StudentsTable = ({ classId }: StudentsTableProps) => {
   }
 
   return (
-    <div className="w-full space-y-4 p-4">
+    <div className="w-full space-y-4 p-0 sm:p-4">
       {/* Header Section */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
             Danh sách học sinh
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
             Quản lý học sinh trong lớp học
           </p>
         </div>
@@ -199,26 +198,32 @@ const StudentsTable = ({ classId }: StudentsTableProps) => {
         <div className="flex items-center gap-3">
           <Badge
             variant="outline"
-            className="px-3 py-2 bg-green-50 border-green-200 text-green-700 dark:bg-green-950 dark:border-green-800 dark:text-green-400"
+            className="px-2 md:px-3 py-1.5 md:py-2 bg-green-50 border-green-200 text-green-700 dark:bg-green-950 dark:border-green-800 dark:text-green-400"
           >
-            <Users className="w-4 h-4 mr-2" />
-            <span className="font-semibold">{onlineCount}</span>
-            <span className="mx-1">/</span>
-            <span>{studentsData.length}</span>
-            <span className="ml-1">Online</span>
+            <Users className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1.5 md:mr-2" />
+            <span className="font-semibold text-sm md:text-base">
+              {onlineCount}
+            </span>
+            <span className="mx-1 text-sm md:text-base">/</span>
+            <span className="text-sm md:text-base">{studentsData.length}</span>
+            <span className="ml-1 text-xs md:text-sm">Online</span>
           </Badge>
         </div>
       </div>
 
       {/* Search and Actions Bar */}
       <div className="flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1 max-w-sm md:max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
-            placeholder="Tìm kiếm theo mã học sinh, tên, trường..."
+            placeholder={
+              window.innerWidth < 768
+                ? "Tìm kiếm..."
+                : "Tìm kiếm theo mã học sinh, tên, trường..."
+            }
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 text-sm"
           />
         </div>
 
@@ -289,10 +294,10 @@ const StudentsTable = ({ classId }: StudentsTableProps) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="bg-gradient-to-br from-white to-gray-50 hover:from-blue-50 hover:to-blue-100 hover:transition-shadow dark:hover:bg-gray-900/50"
+                  className="px-0 bg-gradient-to-br from-white to-gray-50 hover:from-blue-50 hover:to-blue-100 hover:transition-shadow dark:hover:bg-gray-900/50"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="px-0  ">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

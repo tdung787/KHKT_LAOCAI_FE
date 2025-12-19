@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { storage } from "@/utility";
 import { IUser } from "@/domain/interfaces/IUser";
+import { truncateText } from "@/utility/lib/truncateText";
 
 // Types based on entity schema
 interface Quiz {
@@ -695,30 +696,29 @@ const Quiz = ({ subjectId }: QuizProps) => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-base font-semibold text-gray-800 dark:text-gray-100 truncate">
-                      {quiz.title}
+                      {truncateText(quiz.title, 20)}
                     </h3>
-                    <Badge variant="secondary">
-                      {/* {getQuizTypeLabel(quiz.type)} */}
-                    </Badge>
                     {quiz.randomize_questions && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-xs md:flex hidden">
                         <Shuffle className="h-3 w-3 mr-1" />
                         Random
                       </Badge>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex flex-wrap items-center gap-2 md:gap-4 text-xs md:text-sm text-gray-500 dark:text-gray-400">
                     <span className="flex items-center gap-1">
-                      <Clock className="h-3.5 w-3.5" />
-                      {quiz.duration} phút
+                      <Clock className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      <span>{quiz.duration} phút</span>
                     </span>
+                    <span className="hidden md:inline text-gray-300">•</span>
                     <span className="flex items-center gap-1">
-                      <Target className="h-3.5 w-3.5" />
-                      {quiz.total_points} điểm
+                      <Target className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      <span>{quiz.total_points} điểm</span>
                     </span>
+                    <span className="hidden md:inline text-gray-300">•</span>
                     <span className="flex items-center gap-1">
-                      <ClipboardList className="h-3.5 w-3.5" />
-                      {quizQuestions.length} câu
+                      <ClipboardList className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                      <span>{quizQuestions.length} câu</span>
                     </span>
                   </div>
                 </div>

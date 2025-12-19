@@ -225,28 +225,29 @@ const Assignment = ({ subjectId, classId }: AssignmentProps) => {
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="flex items-center gap-1">
+                      <span className=" items-center gap-1 flex ">
                         <Calendar className="h-3.5 w-3.5" />
                         Hạn: {formatDate(assignment.due_date)}
                       </span>
-                      <span className="flex items-center gap-1">
+                      <span className=" items-center gap-1 md:flex hidden">
                         <Users className="h-3.5 w-3.5" />
                         {assignment.total_submitted +
                           assignment.total_unsubmitted}{" "}
                         học sinh
                       </span>
                       {assignment.updated_at && (
-                        <span className="text-xs">
+                        <span className="text-xs md:flex hidden items-center gap-1">
                           Cập nhật {getTimeAgo(assignment.updated_at)}
                         </span>
                       )}
                     </div>
+                  
                   </div>
 
                   {user?.role === "student" && (
-                    <Button variant="outline" size="sm" className="mr-5">
-                      <ArrowBigUpDash className="h-4 w-4 mr-2" />
-                      nộp bài
+                    <Button variant="outline" size="sm" className="md:mr-5 mr-0">
+                      <ArrowBigUpDash className="h-4 w-4 " />
+                      <span className="md:flex hidden" >nộp bài</span>
                     </Button>
                   )}
 

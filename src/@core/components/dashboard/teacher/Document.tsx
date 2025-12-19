@@ -83,7 +83,7 @@ interface DocumentProps {
   subjectId1: string;
 }
 
-const Document = ({subjectId1} : DocumentProps) => {
+const Document = ({ subjectId1 }: DocumentProps) => {
   const user: IUser | null = storage.getUser();
   console.log(subjectId1);
 
@@ -284,7 +284,7 @@ const Document = ({subjectId1} : DocumentProps) => {
                 documents.map((doc) => (
                   <div
                     key={doc.id}
-                    className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     {/* Icon */}
                     <div className="flex-shrink-0">
@@ -293,35 +293,50 @@ const Document = ({subjectId1} : DocumentProps) => {
 
                     {/* Info */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                      <h3 className="font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100 truncate">
                         {doc.title}
                       </h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        <span>{doc.name}</span>
-                        <span>•</span>
-                        <span>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <span className="truncate max-w-[100px] sm:max-w-none">
+                          {doc.name}
+                        </span>
+                        <span className="hidden sm:inline">•</span>
+                        <span className="hidden md:inline">
                           {
                             mockSubjects.find((s) => s.id === doc.subject_id)
                               ?.name
                           }
                         </span>
-                        <span>•</span>
-                        <span>
+                        <span className="hidden md:inline">•</span>
+                        <span className="hidden lg:inline">
                           {mockClasses.find((c) => c.id === doc.class_id)?.name}
                         </span>
-                        <span>•</span>
-                        <span>{formatDate(doc.created_at)}</span>
+                        <span className="hidden lg:inline">•</span>
+                        <span className="hidden sm:inline">
+                          {formatDate(doc.created_at)}
+                        </span>
+                        <span className="sm:hidden text-[10px]">
+                          {new Date(doc.created_at).toLocaleDateString(
+                            "vi-VN",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                            }
+                          )}
+                        </span>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() => window.open(doc.file_url, "_blank")}
+                        className="h-8 w-8 sm:h-9 sm:w-9 p-0"
+                        title="Xem"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </Button>
                       <Button
                         variant="outline"
@@ -332,17 +347,20 @@ const Document = ({subjectId1} : DocumentProps) => {
                           a.download = doc.name;
                           a.click();
                         }}
+                        className="h-8 w-8 sm:h-9 sm:w-9 p-0"
+                        title="Tải xuống"
                       >
-                        <Download className="w-4 h-4" />
+                        <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </Button>
                       {user?.role === "teacher" && (
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => handleDelete(doc.id)}
-                          className="text-red-500 hover:text-red-700"
+                          className="text-red-500 hover:text-red-700 h-8 w-8 sm:h-9 sm:w-9 p-0"
+                          title="Xóa"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </Button>
                       )}
                     </div>

@@ -65,15 +65,22 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
     });
   };
 
-  const formatLatexContent = (content: string) => {
-    return content
-      .replace(/<!--[\s\S]*?-->/g, "")
-      .replace(/<!--\s*ANSWER_KEY:.*?-->/gi, "")
-      .replace(/\\\[/g, "$$")
-      .replace(/\\\]/g, "$$")
-      .replace(/\\\(/g, "$")
-      .replace(/\\\)/g, "$");
-  };
+const formatLatexContent = (content: string) => {
+  return content
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<!--\s*ANSWER_KEY:.*?-->/gi, "")
+    // Thêm xuống dòng sau "Nộp bài:" và giữa các đáp án
+    .replace(/(Nộp bài:\s*)(\d+-[A-D])/gi, "$1\n\n$2")
+    .replace(/(\d+-[A-D]),(\d+-[A-D])/g, "$1,\n$2")
+
+
+      // Backup: Nếu không match pattern trên, tách theo emoji
+    .replace(/(❌|✅)\s*Câu/g, '\n$1 Câu')
+    .replace(/\\\[/g, "$$")
+    .replace(/\\\]/g, "$$")
+    .replace(/\\\(/g, "$")
+    .replace(/\\\)/g, "$");
+};
 
   return (
     <div className="w-full relative h-full flex flex-col">
@@ -113,7 +120,7 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
                     }`}
                   >
                     {message.role === "assistant" && (
-                      <div className="flex-shrink-0">
+                      <div className="flex-shrink-0 md:flex hidden">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-secondary)] flex items-center justify-center">
                           <Bot className="w-5 h-5 text-white" />
                         </div>
@@ -174,7 +181,7 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
                     </div>
 
                     {message.role === "user" && (
-                      <div className="flex-shrink-0">
+                      <div className="flex-shrink-0 md:flex hidden">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-primary-light)] flex items-center justify-center">
                           <User className="w-5 h-5 text-white" />
                         </div>
