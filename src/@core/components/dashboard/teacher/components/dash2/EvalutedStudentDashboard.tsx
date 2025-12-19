@@ -662,30 +662,47 @@ export default function ClassEvaluationDashboardEnhanced({
                   {/* Giữ min-w-[640px] để buộc scroll khi cần */}
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase">
+                      {/* STT - Luôn hiển thị */}
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase">
                         STT
                       </th>
-                      <th className=" px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+
+                      {/* Học sinh - Luôn hiển thị (cột chính) */}
+                      <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Học sinh
                       </th>
-                      <th className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+
+                      {/* Số ngày - Ẩn trên mobile */}
+                      <th className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Số ngày
                       </th>
+
+                      {/* Điểm TB - Luôn hiển thị (rất quan trọng) */}
                       <th className="px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Điểm TB
                       </th>
+
+                      {/* Bài/Ngày - Luôn hiển thị */}
                       <th className="px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Bài/Ngày
                       </th>
-                      <th className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+
+                      {/* Đúng giờ - Ẩn trên mobile */}
+                      <th className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Đúng giờ
                       </th>
-                      <th className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+
+                      {/* Năng lực - Ẩn trên mobile */}
+                      <th className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Năng lực
                       </th>
-                      <th className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+
+                      {/* Kỷ luật - Ẩn trên mobile */}
+                      <th className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Kỷ luật
                       </th>
+
+                      {/* Xếp loại - Luôn hiển thị (kết luận quan trọng) */}
                       <th className="px-2 sm:px-4 py-2 sm:py-3 text-center text-[10px] sm:text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
                         Xếp loại
                       </th>
@@ -695,11 +712,14 @@ export default function ClassEvaluationDashboardEnhanced({
                     {sortedStudents.map((student, index) => (
                       <tr
                         key={student.userId}
-                        className="hover:bg-gray-50 transition-colors "
+                        className="hover:bg-gray-50 transition-colors"
                       >
-                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-900 md:flex hidden">
+                        {/* STT - Luôn hiển thị */}
+                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-900">
                           {index + 1}
                         </td>
+
+                        {/* Học sinh - Luôn hiển thị (cột chính) */}
                         <td className="px-2 sm:px-4 py-2 sm:py-3">
                           <div className="flex items-center gap-1.5 sm:gap-2">
                             <div>
@@ -712,9 +732,13 @@ export default function ClassEvaluationDashboardEnhanced({
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm md:flex hidden">
+
+                        {/* Số ngày - Ẩn trên mobile */}
+                        <td className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm">
                           {student.totalDays}
                         </td>
+
+                        {/* Điểm TB - Luôn hiển thị (rất quan trọng) */}
                         <td className="px-2 sm:px-4 py-2 sm:py-3 text-center">
                           <span
                             className={`text-base sm:text-lg font-bold ${getScoreColor(
@@ -724,20 +748,30 @@ export default function ClassEvaluationDashboardEnhanced({
                             {student.avgScore.toFixed(2)}
                           </span>
                         </td>
+
+                        {/* Bài/Ngày - Luôn hiển thị */}
                         <td className="px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm">
                           {student.avgSubmissions.toFixed(1)}
                         </td>
-                        <td className="px-2 sm:px-4 py-2 sm:py-3 text-center md:flex hidden">
+
+                        {/* Đúng giờ - Ẩn trên mobile */}
+                        <td className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center">
                           <span className="text-xs sm:text-sm font-semibold text-[#00994c]">
                             {student.onTimeRate.toFixed(0)}%
                           </span>
                         </td>
-                        <td className="md:flex hidden px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold text-[#00994c]">
+
+                        {/* Năng lực - Ẩn trên mobile */}
+                        <td className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold text-[#00994c]">
                           {student.competenceScore.toFixed(1)}
                         </td>
-                        <td  className="md:flex hidden  px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold text-[#008c8c]">
+
+                        {/* Kỷ luật - Ẩn trên mobile */}
+                        <td className="hidden md:table-cell px-2 sm:px-4 py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold text-[#008c8c]">
                           {student.disciplineScore.toFixed(1)}
                         </td>
+
+                        {/* Xếp loại - Luôn hiển thị */}
                         <td className="px-2 sm:px-4 py-2 sm:py-3 text-center">
                           <Badge
                             className={`${getRatingColor(
