@@ -259,12 +259,12 @@ const FormLogin: FC = () => {
 
 
       {/* Footer */}
-      {/* <p className="text-center mt-6 text-sm text-gray-600">
+      <p className="text-center mt-6 text-sm text-gray-600">
         Chưa có tài khoản?{' '}
         <a href="/register" className="text-[#00994C] hover:text-[#007a3d] font-semibold transition-colors">
           Đăng ký ngay
         </a>
-      </p> */}
+      </p>
     </div>
   );
 };

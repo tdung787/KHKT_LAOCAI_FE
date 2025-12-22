@@ -115,8 +115,9 @@ const Login: FC = () => {
         <div className="w-full lg:w-1/3 flex justify-center px-4 py-6 lg:py-0 lg:mt-0">
           <FormLogin />
         </div>
+        
       </main>
-
+  
       {/* FOOTER */}
       <Footer />
     </div>

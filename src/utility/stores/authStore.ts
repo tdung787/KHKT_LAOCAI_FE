@@ -5,7 +5,7 @@ import { ILoginRequest } from "@domain/interfaces/IAuth";
 import { storage } from "@/utility/lib/storage";
 import toast from "react-hot-toast";
 import { IUser } from "@/domain/interfaces/IUser";
-import { handleApiError } from "../lib/errorHandler";
+import {  handleApiErrorAuth } from "../lib/errorHandler";
 import { IApiError } from "../lib/IError";
 
 interface AuthState {
@@ -68,8 +68,8 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
       toast.success("Đăng nhập thành công!");
     } catch (error) {
-      const apiError = handleApiError(error);
-      
+      const apiError = handleApiErrorAuth(error);
+
       set({
         isLoading: false,
         error: apiError,
@@ -85,7 +85,9 @@ export const useAuthStore = create<AuthState>()((set) => ({
     storage.remove("profile_student");
     storage.remove("profile_admin");
     storage.remove("auth-storage");
-
+    storage.remove("student_profile_created");
+    storage.remove("teacher_profile_created");
+   
     set({
       user: null,
       isAuthenticated: false,
@@ -105,7 +107,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   // Set loading
   setLoading: (loading: boolean) => set({ isLoading: loading }),
-  
+
   // Clear error
   clearError: () => set({ error: null }),
 }));

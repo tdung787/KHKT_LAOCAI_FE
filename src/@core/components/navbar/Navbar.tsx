@@ -1,18 +1,19 @@
-import { FC, useState } from "react";
-import { Menu, Bell, Settings, User, LogOut } from "lucide-react";
+import { FC} from "react";
+import { Menu, Bell, User, LogOut } from "lucide-react";
 import { Breadcrumbs } from "../ui/Breadcrumbs";
 import { useNavigate } from "react-router";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/DropdownMenu1";
+
 import { useNotification } from "@/services/useNotification";
 import { useBreadcrumbs } from "../ui/hooks/useBreadcrumbs";
 import { useAuthStore } from "@/utility/stores/authStore";
 import { getRoleDefaultPath } from "./getRoleDefaultPath";
-import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { ThemeToggle } from "@/utility";
 
 export interface NavbarProps {
   setMenuVisibility?: (visible: boolean) => void;
@@ -39,59 +40,39 @@ const Navbar: FC<NavbarProps> = ({
 }) => {
   const navigate = useNavigate();
   const breadcrumbItems = useBreadcrumbs();
-  const [isOpen, setIsOpen] = useState(false);
   const { unreadCount } = useNotification();
 
   // ✅ Get user from auth store
   const { user, logout } = useAuthStore();
 
   // ✅ Get user initials
-  const getUserInitials = (): string => {
-    if (!user?.full_name) return "U";
-    const names = user.full_name.split(" ");
-    if (names.length >= 2) {
-      return (names[0][0] + names[names.length - 1][0]).toUpperCase();
-    }
-    return user.full_name.substring(0, 2).toUpperCase();
-  };
+
 
   // ✅ Get role display name
-  const getRoleDisplayName = (): string => {
-    if (!user?.role) return "User";
-    
-    const roleMap: Record<string, string> = {
-      admin: "Quản trị viên",
-      teacher: "Giáo viên",
-      student: "Học sinh",
-    };
-    
-    return roleMap[user.role] || user.role;
-  };
+  // const getRoleDisplayName = (): string => {
+  //   if (!user?.role) return "User";
+
+  //   const roleMap: Record<string, string> = {
+  //     admin: "Quản trị viên",
+  //     teacher: "Giáo viên",
+  //     student: "Học sinh",
+  //   };
+
+  //   return roleMap[user.role] || user.role;
+  // };
 
   // ✅ Navigate to profile
   const handleProfileClick = () => {
     if (!user?.role) return;
-    
+
     const basePath = getRoleDefaultPath(user.role);
     navigate(`${basePath}`);
-    setIsOpen(false);
-  };
-
-  // ✅ Navigate to settings
-  const handleSettingsClick = () => {
-    if (!user?.role) return;
-    
-    const basePath = getRoleDefaultPath(user.role);
-    navigate(`${basePath}/settings`);
-    setIsOpen(false);
   };
 
   // ✅ Handle logout
   const handleLogout = () => {
     logout();
     navigate("/login");
-    toast.success("Đăng xuất thành công");
-    setIsOpen(false);
   };
 
   return (
@@ -118,6 +99,7 @@ const Navbar: FC<NavbarProps> = ({
 
       {/* Right Actions */}
       <div className="flex items-center gap-2">
+        <div>{/* <ThemeToggle /> */}</div>
         {/* Notifications */}
         {showNotifications && (
           <button
@@ -136,71 +118,55 @@ const Navbar: FC<NavbarProps> = ({
 
         {/* User Avatar */}
         {showUserAvatar && user && (
-          <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-            <DropdownMenuTrigger asChild>
+          <Popover>
+            <PopoverTrigger>
               <button
-                className="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-slate-800 px-3 py-1 rounded-lg transition-all group"
+                className="flex items-center"
                 aria-label="User menu"
               >
                 {/* Avatar */}
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#00994C] via-[#008C8C] to-[#0077CC] flex items-center justify-center group-hover:scale-110 transition-transform shadow-md overflow-hidden">
-                  {user.avatar ? (
-                    <img
-                      src={user.avatar}
-                      alt={user.full_name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-xs font-bold text-white">
-                      {getUserInitials()}
-                    </span>
-                  )}
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#00994C] via-[#008C8C] to-[#0077CC] flex items-center justify-center 110 transition-transform shadow-md overflow-hidden">
+                  <Avatar className="h-12 w-12 border-4 border-white shadow-2xl">
+                    <AvatarImage src={user?.avatar} alt={user?.full_name} />
+                    <AvatarFallback className="bg-gray-200 text-gray-700 font-bold">
+                      {user?.full_name.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
                 </div>
 
                 {/* User Info */}
-                <div className="hidden md:flex flex-col items-start leading-tight text-left">
+                {/* <div className="hidden md:flex flex-col items-start leading-tight text-left">
                   <span className="text-sm font-semibold text-gray-900 dark:text-white">
                     {user.full_name || "User"}
                   </span>
                   <span className="text-xs text-gray-500 dark:text-gray-400">
                     {getRoleDisplayName()}
                   </span>
-                </div>
+                </div> */}
               </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-48 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-lg"
-              align="end"
+            </PopoverTrigger>
+            <PopoverContent
+              className=" mr-5 w-48 p-2 flex flex-col  bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-lg"
               side="bottom"
+              align="center"
             >
               {/* Profile */}
-              <DropdownMenuItem
-                className="flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer"
+              <div
+                className="p-2 flex items-center rounded-sm  text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer"
                 onClick={handleProfileClick}
               >
-                <User className="mr-2 h-4 w-4" />
-                <span>Thông tin cá nhân</span>
-              </DropdownMenuItem>
-
-              {/* Settings */}
-              <DropdownMenuItem
-                className="flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer"
-                onClick={handleSettingsClick}
-              >
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Cài đặt</span>
-              </DropdownMenuItem>
-
-              {/* Logout */}
-              <DropdownMenuItem
-                className="flex items-center text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer"
+                <User className="mr-2 h-5 w-5" />
+                <span className="text-l">Thông tin cá nhân</span>
+              </div>
+              <div
+                className="p-2 flex items-center rounded-sm  text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 cursor-pointer"
                 onClick={handleLogout}
               >
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Đăng xuất</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <LogOut className="mr-2 h-5 w-5" />
+                <span className="text-l">Đăng xuất</span>
+              </div>
+            </PopoverContent>
+          </Popover>
         )}
       </div>
     </div>

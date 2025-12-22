@@ -116,7 +116,7 @@ const StudentClasses = () => {
             <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
               {/* TabsList - Scrollable trên mobile */}
               <div className="overflow-x-auto pb-2 md:pb-0">
-                <TabsList className="bg-[var(--color-secondary)] text-white text-sm md:text-xl w-full md:w-auto inline-flex">
+                <TabsList className="bg-[var(--color-secondary)] dark:bg-[var(--color-secondary-dark)] dark:border-1 dark:border-[var(--color-secondary-dark)] text-white text-sm md:text-xl w-full md:w-auto inline-flex">
                   <TabsTrigger
                     value="assignments"
                     disabled={!selectedSubject}
@@ -155,18 +155,17 @@ const StudentClasses = () => {
                   value={selectedSubject}
                   disabled={!selectedStudentClass}
                 >
-                  <SelectTrigger className="w-full md:w-[180px]">
-                    <SelectValue placeholder="Chọn môn học" />
+                  <SelectTrigger className="w-full md:w-[180px] dark:border-1 dark:border-[var(--color-secondary-dark)]">
+                    <SelectValue placeholder="Chọn môn học " />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
+                  <SelectContent className="bg-[var(--color-secondary)] dark:bg-[var(--color-secondary-dark)] dark:border-1 dark:border-[var(--color-secondary-dark)] ">
+                    <SelectGroup >
                       <SelectLabel>Môn học</SelectLabel>
                       {selectedStudentClass?.class_id.subject_ids.map(
                         (subjectId) => (
-                          <SelectItem key={subjectId} value={subjectId}>
+                          <SelectItem key={subjectId} value={subjectId} className="dark:bg-[var(--color-secondary-dark)] hover:bg-gray-100 dark:hover:bg-white/10">
                             {subjectId === "690d75bcd9f6d86227089d81" && "Toán"}
-                            {subjectId === "690d75cfd9f6d86227089d85" &&
-                              "Vật Lý"}
+                            {subjectId === "690d75cfd9f6d86227089d85" && "Vật Lý"}
                             {subjectId === "690d75d6d9f6d86227089d89" && "Hóa"}
                             {subjectId === "690d75dad9f6d86227089d8d" && "Sinh"}
                           </SelectItem>

@@ -3,7 +3,7 @@ import { UserRole } from '@/domain/interfaces/IEnum';
 
 export const getRoleDefaultPath = (role: UserRole): string => {
   const rolePathMap: Record<UserRole, string> = {
-    [UserRole.ADMIN]: '/admin',
+    [UserRole.ADMIN]: '/admin/dashboard/usersapprove',
     [UserRole.TEACHER]: '/teacher/profile',
     [UserRole.STUDENT]: '/student/profile',
   };

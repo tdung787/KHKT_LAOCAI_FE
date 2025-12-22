@@ -1,17 +1,18 @@
 import { 
   // Home,
-  Users,
-  School,
+  // Users,
+  // School,
   BookOpen,
-  FileText,
-  Bell,
+  // FileText,
+  // Bell,
   Database,
   // MessagesSquare,
   Brain,
   ClipboardList,
   // TrendingUp,
   Bot,
-  Library,
+  UserLock,
+  // Library,
   // BadgeCheck
 } from "lucide-react";
 import { NavLink } from "./INavProps";
@@ -24,41 +25,47 @@ export const adminNavLinks: NavLink[] = [
   //   checkRoll: ["student", "teacher", "admin"],
   // },
   {
-    title: "Quản lý người dùng",
-    href: "/admin/dashboard/users",
-    icon: Users,
+    title: "Phê duyệt tài khoản",
+    href: "/admin/dashboard/usersapprove",
+    icon: UserLock,
     checkRoll: ["admin"],
   },
-  {
-    title: "Quản lý lớp học",
-    href: "/admin/dashboard/classes",
-    icon: School,
-    checkRoll: ["admin"],
-  },
-  {
-    title: "Quản lý môn học",
-    href: "/admin/dashboard/subjects",
-    icon: Library,
-    checkRoll: ["admin"],
-  },
-  {
-    title: "Quản lý báo cáo",
-    href: "/admin/dashboard/reports",
-    icon: FileText,
-    checkRoll: ["admin"],
-  },
-  {
-    title: "Quản lý thông báo",
-    href: "/admin/dashboard/notifications",
-    icon: Bell,
-    checkRoll: ["admin"],
-  },
-  {
-    title: "Quản lý Mô hình tài liệu ",
-    href: "/admin/dashboard/datasets-models",
-    icon: Database,
-    checkRoll: ["admin"],
-  },
+  // {
+  //   title: "Quản lý người dùng",
+  //   href: "/admin/dashboard/users",
+  //   icon: Users,
+  //   checkRoll: ["admin"],
+  // },
+  // {
+  //   title: "Quản lý lớp học",
+  //   href: "/admin/dashboard/classes",
+  //   icon: School,
+  //   checkRoll: ["admin"],
+  // },
+  // {
+  //   title: "Quản lý môn học",
+  //   href: "/admin/dashboard/subjects",
+  //   icon: Library,
+  //   checkRoll: ["admin"],
+  // },
+  // {
+  //   title: "Quản lý báo cáo",
+  //   href: "/admin/dashboard/reports",
+  //   icon: FileText,
+  //   checkRoll: ["admin"],
+  // },
+  // {
+  //   title: "Quản lý thông báo",
+  //   href: "/admin/dashboard/notifications",
+  //   icon: Bell,
+  //   checkRoll: ["admin"],
+  // },
+  // {
+  //   title: "Quản lý Mô hình tài liệu ",
+  //   href: "/admin/dashboard/datasets-models",
+  //   icon: Database,
+  //   checkRoll: ["admin"],
+  // },
 ];
 
 export const teacherNavLinks: NavLink[] = [

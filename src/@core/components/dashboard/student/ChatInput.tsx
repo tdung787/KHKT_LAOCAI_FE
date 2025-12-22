@@ -1,8 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { Send, Image as ImageIcon, Loader2, X } from "lucide-react";
+import { Send, Image as ImageIcon, Loader2, X, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface Attachment {
   type: "image" | "document";
@@ -155,6 +160,61 @@ const ChatInput = ({ onSendMessage, isLoading = false }: ChatInputProps) => {
 
         {/* Input Container - Flex column on mobile, row on desktop */}
         <div className="flex flex-col md:flex-row justify-center items-stretch md:items-end gap-2">
+          <div className="relative md:flex hidden">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 flex-shrink-0 border-[var(--color-primary-light)]/30 hover:bg-[var(--color-primary-light)]/10"
+                >
+                  <Brain className="w-5 h-5 text-[var(--color-primary-light)]" />
+                </Button>
+              </PopoverTrigger>
+
+              <PopoverContent
+                className="w-80 mb-2" // mb-2 để tạo khoảng cách với nút (drop-up)
+                side="top" // Quan trọng: hiện từ dưới lên (drop-up)
+                align="center"
+                sideOffset={8}
+              >
+                <div className="space-y-4 py-2">
+                  <div className="flex items-center gap-3 px-2">
+                    <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
+                      <Brain className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Trợ lý AI Khoa học</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Hỏi đáp dựa trên tài liệu đã tải lên
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 px-2">
+                    <Button
+                      variant="default"
+                      className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                    >
+                      Hàm số và Đạo hàm
+                    </Button>
+                    <Button
+                      variant="default"
+                      className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                    >
+                      Hình học không gian
+                    </Button>
+                    <Button
+                      variant="default"
+                      className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                    >
+                      Hóa học hữu cơ cơ bản
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
           {/* Text Input */}
           <div className="flex-1 relative w-full md:max-w-[650px]">
             <Textarea
@@ -173,6 +233,62 @@ const ChatInput = ({ onSendMessage, isLoading = false }: ChatInputProps) => {
           {/* Buttons Container - Horizontal on mobile, auto on desktop */}
           <div className="flex justify-end md:justify-start items-center gap-1.5 sm:gap-2">
             {/* Image Upload Button */}
+
+            <div className="relative flex md:hidden">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 flex-shrink-0 border-[var(--color-primary-light)]/30 hover:bg-[var(--color-primary-light)]/10"
+                  >
+                    <Brain className="w-5 h-5 text-[var(--color-primary-light)]" />
+                  </Button>
+                </PopoverTrigger>
+
+                <PopoverContent
+                  className="w-80 mb-2" // mb-2 để tạo khoảng cách với nút (drop-up)
+                  side="top" // Quan trọng: hiện từ dưới lên (drop-up)
+                  align="center"
+                  sideOffset={8}
+                >
+                  <div className="space-y-4 py-2">
+                    <div className="flex items-center gap-3 px-2">
+                      <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
+                        <Brain className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Trợ lý AI Khoa học</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Hỏi đáp dựa trên tài liệu đã tải lên
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 px-2">
+                      <Button
+                        variant="default"
+                        className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                      >
+                        Hàm số và Đạo hàm
+                      </Button>
+                      <Button
+                        variant="default"
+                        className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                      >
+                        Hình học không gian
+                      </Button>
+                      <Button
+                        variant="default"
+                        className="w-full justify-start bg-primary-light hover:bg-primary-dark text-white"
+                      >
+                        Hóa học hữu cơ cơ bản
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
             {!image && (
               <Button
                 type="button"

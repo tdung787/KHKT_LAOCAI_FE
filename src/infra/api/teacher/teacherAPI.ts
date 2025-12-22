@@ -1,4 +1,4 @@
-import axiosInstance from "../conflig/axiosInstance";
+import axiosInstance from "../conflig/axiosInstanceold";
 import { API_ENDPOINTS } from "../conflig/apiEndpoints";
 import { IClassResponse } from "@/domain/interfaces/IClass";
 import { ITeacherResponse,  } from "@/domain/interfaces/ITeacher";

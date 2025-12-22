@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import StudentAPI from "@/infra/api/StudentAPI";
 import {  IStudentResponseData } from "@/domain/interfaces/IStudent";
-import { handleApiError } from "../lib/errorHandler";
+import {  handleApiErrorAuth } from "../lib/errorHandler";
 import { IApiError } from "../lib/IError";
 import { storage } from "../lib/storage";
 
@@ -16,7 +16,7 @@ interface StudentState {
   getProfileStudent: () => Promise<void>;
   setStudent: (student: IStudentResponseData) => void;
   clearStudent: () => void;
-  clearError: () => void;
+  clearErrorStuProfile: () => void;
 }
 
 export const useStudentStore = create<StudentState>()((set) => ({
@@ -44,7 +44,7 @@ export const useStudentStore = create<StudentState>()((set) => ({
 
       // toast.success("Tải thông tin học sinh thành công!");
     } catch (error) {
-      const apiError = handleApiError(error);
+      const apiError = handleApiErrorAuth(error);
 
       set({
         error: apiError,
@@ -73,7 +73,7 @@ export const useStudentStore = create<StudentState>()((set) => ({
   /**
    * 🔹 Clear error
    */
-  clearError: () => {
+  clearErrorStuProfile: () => {
     set({ error: null });
   },
 }));
