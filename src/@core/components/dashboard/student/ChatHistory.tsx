@@ -64,36 +64,36 @@ const ChatHistory = ({
               sessions.map((session) => (
                 <div
                   key={session.id}
-                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-green-50 group relative rounded-lg p-2 sm:p-3 ${
+                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-green-50 group relative sm:px-2 px-5 sm:py-0 py-3  ${
                     currentSessionId === session.id
                       ? "bg-gradient-to-r from-[var(--color-primary-light)]/10 to-[var(--color-secondary)]/10 border-2 border-[var(--color-primary-light)] shadow-sm"
-                      : "border border-gray-200 hover:border-[var(--color-primary-light)]/30"
+                      : " hover:border-[var(--color-primary-light)]/30"
                   }`}
                   onClick={() => onSelectSession(session.id)}
                 >
                   <div className="flex items-start gap-2 sm:gap-3">
                     <div className="flex-1 min-w-0">
                       {/* Title */}
-                      <h3 className="font-medium text-sm sm:text-base truncate text-green-950 mb-1">
-                        {truncateText(session.title, 30)}
+                      <h3 className="font-medium text-sm sm:text-base truncate text-green-950 py-1.5">
+                        {truncateText(session.title, 25)}
                       </h3>
 
                       {/* Last Message */}
-                      {session.lastMessage && (
+                      {/* {session.lastMessage && (
                         <p className="text-[11px] sm:text-xs text-gray-500 truncate mb-1">
                           <span className="hidden md:inline">
-                            {truncateText(session.lastMessage, 50)}
+                            {truncateText(session.lastMessage, 30)}
                           </span>
                           <span className="md:hidden">
                             {truncateText(session.lastMessage, 25)}
                           </span>
                         </p>
-                      )}
+                      )} */}
 
                       {/* Message Count */}
-                      <p className="text-[10px] sm:text-xs text-gray-400">
+                      {/* <p className="text-[10px] sm:text-xs text-gray-400">
                         {session.messageCount} tin nhắn
-                      </p>
+                      </p> */}
                     </div>
 
                     {/* Delete Button */}
@@ -133,7 +133,7 @@ const ChatHistory = ({
       {/* Footer Info */}
       <div className="flex-shrink-0 p-4 border-t bg-gray-50">
         <p className="text-xs text-gray-500 text-center">
-          Powered by AI • {sessions.length} cuộc trò chuyện
+          {sessions.length} cuộc trò chuyện
         </p>
       </div>
     </aside>

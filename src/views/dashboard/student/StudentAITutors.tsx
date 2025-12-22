@@ -294,9 +294,9 @@ const StudentAITutors = () => {
         {/* Chat History Panel */}
         {!isMobile ? (
           <ResizablePanel
-            defaultSize={25}
-            minSize={20}
-            maxSize={40}
+            defaultSize={15}
+            minSize={15}
+            maxSize={30}
             className="bg-white"
           >
          
@@ -320,7 +320,7 @@ const StudentAITutors = () => {
                   <Button
                     variant="outline"
                     size="default"
-                    className="fixed rounded-t-none top-21 left-3 z-50 md:hidden"
+                    className="fixed rounded-t-none top-21 left-3 z-30 md:hidden"
                   >
                     <FileClock  className="h-5 w-5" /> lịch sử chát
                   </Button>

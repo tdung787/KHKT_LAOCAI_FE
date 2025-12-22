@@ -198,23 +198,22 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
     p-1
     dark:my-3.5
     flex-1 
-    dark:p-4 
+    dark:p-3
     dark:md:mx-3.5
     relative
     
     /* ← THÊM DÒNG NÀY - QUAN TRỌNG NHẤT */
     overflow-hidden
     flex flex-col
-    
     dark:bg-gradient-to-br from-white/10 via-white/5 to-transparent
     dark:backdrop-saturate-150
     dark:border border-white/20
-    rounded-2xl
+    
     dark:shadow-[0_8px_32px_0_rgba(31,38,135,0.37),0_2px_8px_0_rgba(255,255,255,0.15)_inset]
     dark:hover:shadow-[0_8px_40px_0_rgba(31,38,135,0.45),0_2px_12px_0_rgba(255,255,255,0.2)_inset]
     transition-all duration-300
     before:absolute before:inset-0 
-    before:rounded-2xl
+    
     dark:before:bg-gradient-to-br before:from-white/20 before:to-transparent
     before:opacity-50
     before:-z-10

@@ -30,6 +30,22 @@ export const handleApiError = (error: unknown): IApiError => {
   return defaultError;
 };
 
+ export const handleApiErrorAuth= (error: unknown): IApiError => {
+  if (error instanceof AxiosError && error.response) {
+    const apiError = error.response.data as IApiError;
+    return apiError;
+  }
+
+  // Lỗi không xác định
+  const defaultError: IApiError = {
+    success: false,
+    message: 'Có lỗi xảy ra, vui lòng thử lại',
+    statusCode: 500,
+  };
+  
+  return defaultError;
+};
+
 // Format error message cho UI
 export const getErrorMessage = (error: IApiError): string => {
   if (error.errors && error.errors.length > 0) {

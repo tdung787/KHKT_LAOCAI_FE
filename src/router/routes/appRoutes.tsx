@@ -5,6 +5,7 @@ import { TeacherEval } from "@/views/dashboard/teacher/TeacherEval";
 import StudentProfile from "@/views/dashboard/student/StudentProfile";
 import TeacherProfile from "@/views/dashboard/teacher/TeacherProfile";
 import { RootRedirect } from "../components/RedirectsAuth";
+import AdminAccets from "@/views/dashboard/admin/AdminAccounts";
 // import { ProtectedRoute } from "../components";
 
 const NotificationPage = lazy(
@@ -113,6 +114,10 @@ export const appRoutes: RouteObject[] = [
           {
             index: true,
             element: <AdminDashboard />,
+          },
+            {
+            path: "usersapprove",
+            element: <AdminAccets />,
           },
           {
             path: "users",

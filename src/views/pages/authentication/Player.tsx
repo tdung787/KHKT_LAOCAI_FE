@@ -373,7 +373,7 @@ export default function Player() {
         <div className="feature-item">
           <div className="feature-icon">⚡</div>
           <div className="feature-text">
-            <h4>Quản lý và dánh giá kết quả học tập</h4>
+            <h4>Quản lý và đánh giá kết quả học tập</h4>
             <p>Giúp giáo viên theo dõi tiến trình học tập của học sinh</p>
           </div>
         </div>

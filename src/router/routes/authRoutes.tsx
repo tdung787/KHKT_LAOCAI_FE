@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { RouteObject} from "react-router";
 import { PublicRoute } from "../components";
 import SessionExpired from "@/@core/components/ui/session-expired";
+import { Register } from "@/views/pages/authentication";
 
 // Lazy load layout
 const BlankLayout = lazy(() => import("@core/layouts/BlankLayout"));
@@ -25,6 +26,16 @@ export const authRoutes: RouteObject[] = [
         </BlankLayout>
       </PublicRoute>
     ),
+  },
+  {
+    path: "/register",
+    element: (
+      <PublicRoute redirectIfAuthenticated>
+        <BlankLayout>
+          <Register />
+        </BlankLayout>
+      </PublicRoute>
+    ),  
   },
   {
     path: "/coming-soon",

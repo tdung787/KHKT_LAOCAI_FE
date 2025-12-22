@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import teacherAPI from "@/infra/api/teacher/teacherAPI";
-import {  ITeacherResponseData } from "@/domain/interfaces/ITeacher";
-import { handleApiError } from "../lib/errorHandler";
+import { ITeacherResponseData } from "@/domain/interfaces/ITeacher";
+import { handleApiErrorAuth } from "../lib/errorHandler";
 import { IApiError } from "../lib/IError";
 import { storage } from "../lib/storage";
 
@@ -28,29 +28,29 @@ export const useTeacherStore = create<TeacherState>()((set) => ({
    * 🔹 Lấy thông tin profile của teacher
    */
   getProfileTeacher: async () => {
-  try {
-    set({ isLoading: true, error: null });
+    try {
+      set({ isLoading: true, error: null });
 
-    const response = await teacherAPI.getProfileTeacher();
+      const response = await teacherAPI.getProfileTeacher();
 
-    // ✅ Destructure để TypeScript hiểu rõ hơn
-  
-    set({
-      teacher: response.data || null,
-      isLoading: false,
-    });
-    
-    storage.set("profile_teacher", response.data);
-  } catch (error) {
-    const apiError = handleApiError(error);
+      // ✅ Destructure để TypeScript hiểu rõ hơn
 
-    set({
-      error: apiError,
-      isLoading: false,
-      teacher: null,
-    });
-  }
-},
+      set({
+        teacher: response.data || null,
+        isLoading: false,
+      });
+
+      storage.set("profile_teacher", response.data);
+    } catch (error) {
+      const apiError = handleApiErrorAuth(error);
+
+      set({
+        error: apiError,
+        isLoading: false,
+        teacher: null,
+      });
+    }
+  },
 
   /**
    * 🔹 Set teacher trực tiếp
