@@ -71,7 +71,7 @@ const ChatHistory = ({
                   }`}
                   onClick={() => onSelectSession(session.id)}
                 >
-                  <div className="flex items-start gap-2 sm:gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <div className="flex-1 min-w-0">
                       {/* Title */}
                       <h3 className="font-medium text-sm sm:text-base truncate text-green-950 py-1.5">
