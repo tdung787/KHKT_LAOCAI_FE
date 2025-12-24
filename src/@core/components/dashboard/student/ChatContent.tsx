@@ -1,11 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Bot, User, ArrowDown, Loader2 } from "lucide-react";
+import {
+  Bot,
+  User,
+  ArrowDown,
+  Loader2,
+  Copy,
+  Check,
+  Download,
+} from "lucide-react"; // Thêm Check icon
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 import { Message } from "@/views/dashboard/student/StudentAITutors";
+
+// utils/api.ts hoặc nơi bạn định nghĩa axiosInstance
+import axios from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: "http://14.225.211.7:8110",
+  // các config khác nếu có
+});
 
 interface ChatContentProps {
   messages: Message[];
@@ -17,7 +33,21 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  // ✅ Auto scroll khi có messages mới HOẶC khi loading
+  // State để quản lý trạng thái copy của từng message
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Hàm xử lý copy
+  const handleCopy = async (content: string, messageId: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedId(messageId);
+      setTimeout(() => setCopiedId(null), 2000); // Ẩn sau 2s
+    } catch (err) {
+      console.error("Copy thất bại:", err);
+    }
+  };
+
+  // Auto scroll khi có messages mới HOẶC khi loading
   useEffect(() => {
     if (bottomRef.current && scrollContainerRef.current) {
       const scrollContainer = scrollContainerRef.current;
@@ -25,20 +55,21 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
       const scrollTimeout = setTimeout(() => {
         const isNearBottom =
           scrollContainer.scrollHeight -
-          scrollContainer.scrollTop -
-          scrollContainer.clientHeight;
-        // Scroll xuống nếu gần bottom HOẶC đang loading
+            scrollContainer.scrollTop -
+            scrollContainer.clientHeight <
+          100;
+
         if (isNearBottom || messages.length === 1 || isLoading) {
           bottomRef.current?.scrollIntoView({
             behavior: "smooth",
             block: "end",
           });
         }
-      }, 100); // Giảm delay xuống 100ms để responsive hơn
+      }, 100);
 
       return () => clearTimeout(scrollTimeout);
     }
-  }, [messages, isLoading]); // ✅ Depend on both messages và isLoading
+  }, [messages, isLoading]);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -50,12 +81,10 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
   };
 
   const scrollToBottom = () => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-    }
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   };
 
   const formatTime = (date: Date) => {
@@ -65,22 +94,75 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
     });
   };
 
-const formatLatexContent = (content: string) => {
-  return content
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/<!--\s*ANSWER_KEY:.*?-->/gi, "")
-    // Thêm xuống dòng sau "Nộp bài:" và giữa các đáp án
-    .replace(/(Nộp bài:\s*)(\d+-[A-D])/gi, "$1\n\n$2")
-    .replace(/(\d+-[A-D]),(\d+-[A-D])/g, "$1,\n$2")
+  const formatLatexContent = (content: string) => {
+    return content
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<!--\s*ANSWER_KEY:.*?-->/gi, "")
+      .replace(/(Nộp bài:\s*)(\d+-[A-D])/gi, "$1\n\n$2")
+      .replace(/(\d+-[A-D]),(\d+-[A-D])/g, "$1,\n$2")
+      .replace(/(❌|✅)\s*Câu/g, "\n$1 Câu")
+      .replace(/\\\[/g, "$$")
+      .replace(/\\\]/g, "$$")
+      .replace(/\\\(/g, "$")
+      .replace(/\\\)/g, "$");
+  };
 
+  // Trong ChatContent component
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const handleDownloadPDF = async (content: string, messageId: string) => {
+    if (downloadingId === messageId) return;
 
-      // Backup: Nếu không match pattern trên, tách theo emoji
-    .replace(/(❌|✅)\s*Câu/g, '\n$1 Câu')
-    .replace(/\\\[/g, "$$")
-    .replace(/\\\]/g, "$$")
-    .replace(/\\\(/g, "$")
-    .replace(/\\\)/g, "$");
-};
+    try {
+      setDownloadingId(messageId);
+
+      const response = await axiosInstance.post<{
+        success: boolean;
+        download_url: string;
+        message?: string;
+      }>(
+        "/api/markdown/to-pdf",
+        { markdown_content: content }, // gửi đúng key backend mong đợi
+        {
+          headers: {
+            "Content-Type": "application/json", // ép buộc
+          },
+          responseType: "json",
+        }
+      );
+
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Tạo PDF thất bại");
+      }
+
+      // Trigger download
+      const link = document.createElement("a");
+      link.href = response.data.download_url;
+      link.download = "bai-giang.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err: unknown) {
+    console.error("Download PDF thất bại:", err);
+
+    // Type guard để kiểm tra err có phải là AxiosError không
+    if (axios.isAxiosError(err) && err.response) {
+      console.error("Response data:", err.response.data);
+      console.error("Status:", err.response.status);
+
+      // const serverMessage = (err.response.data as any)?.message;
+      // alert(
+      //   "Không thể tạo PDF. Lỗi server: " +
+      //     (serverMessage || err.message || "Không rõ lỗi")
+      // );
+    } else if (err instanceof Error) {
+      alert("Không thể tạo PDF. Lỗi: " + err.message);
+    } else {
+      alert("Không thể tạo PDF. Đã xảy ra lỗi không xác định.");
+    }
+  } finally {
+    setDownloadingId(null);
+  }
+  };
 
   return (
     <div className="w-full relative h-full flex flex-col">
@@ -95,7 +177,6 @@ const formatLatexContent = (content: string) => {
       >
         <div className="min-h-full flex flex-col">
           {messages.length === 0 && !isLoading ? (
-            // Empty state
             <div className="flex-1 flex flex-col items-center justify-center p-4">
               <div className="p-6 bg-gradient-to-br from-[var(--color-primary-light)]/20 to-[var(--color-secondary)]/20 rounded-full mb-6">
                 <Bot className="w-16 h-16 text-[var(--color-primary-dark)]" />
@@ -109,7 +190,6 @@ const formatLatexContent = (content: string) => {
               </p>
             </div>
           ) : (
-            // Messages container
             <div className="flex-1 w-full max-w-4xl mx-auto px-4 py-4">
               <div className="space-y-4">
                 {messages.map((message) => (
@@ -133,15 +213,15 @@ const formatLatexContent = (content: string) => {
                       } max-w-[85%] md:max-w-[75%]`}
                     >
                       <Card
-                        className={`p-4 w-full ${
+                        className={`p-4 w-full relative group ${
                           message.role === "user"
                             ? "bg-gradient-to-r from-[var(--color-primary-light)] to-green-900 text-white"
                             : "bg-white shadow-md"
                         }`}
                       >
-                        {/* ✅ Image Display */}
+                        {/* Image Display */}
                         {message.image && (
-                          <div>
+                          <div className="mb-3">
                             <img
                               src={message.image}
                               alt="Uploaded image"
@@ -168,16 +248,57 @@ const formatLatexContent = (content: string) => {
                               </div>
                             ) : (
                               <p className="text-sm whitespace-pre-wrap break-words">
-                               {formatLatexContent(message.content)}
+                                {formatLatexContent(message.content)}
                               </p>
                             )}
                           </>
                         )}
                       </Card>
 
-                      <span className="text-xs text-gray-400 mt-1 px-2">
-                        {formatTime(message.timestamp)}
-                      </span>
+                      <div className="w-full flex justify-between items-center gap-2 mt-2">
+                        <div className="flex ">
+                          {/* Nút Copy - hiện khi hover hoặc đã copy */}
+                          {message.content && (
+                            <button
+                              onClick={() =>
+                                handleCopy(message.content, message.id)
+                              }
+                              className="  transition-opacity 
+                               hover:bg-black/20 rounded-md p-1.5 
+                              text-gray-600 hover:text-gray-900"
+                              aria-label="Copy tin nhắn"
+                            >
+                              {copiedId === message.id ? (
+                                <Check className="w-4 h-4 text-green-600" />
+                              ) : (
+                                <Copy className="w-4 h-4" />
+                              )}
+                            </button>
+                          )}
+
+                          {/* Nút download pdf */}
+                          {/* Nút Download PDF - chỉ hiện cho message của assistant */}
+                          {message.content && message.role === "assistant" && (
+                            <button
+                              onClick={() =>
+                                handleDownloadPDF(message.content, message.id)
+                              }
+                              disabled={downloadingId === message.id}
+                              className="transition-opacity hover:bg-black/20 rounded-md p-1.5 text-gray-600 hover:text-gray-900 disabled:opacity-50"
+                              aria-label="Tải xuống PDF"
+                            >
+                              {downloadingId === message.id ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              ) : (
+                                <Download className="w-4 h-4" />
+                              )}
+                            </button>
+                          )}
+                        </div>
+                        <span className="text-xs text-gray-400 mt-1 px-2">
+                          {formatTime(message.timestamp)}
+                        </span>
+                      </div>
                     </div>
 
                     {message.role === "user" && (
@@ -190,7 +311,7 @@ const formatLatexContent = (content: string) => {
                   </div>
                 ))}
 
-                {/* ✅ Loading Indicator - Hiện khi chatbot content rỗng */}
+                {/* Loading Indicator */}
                 {isLoading && (
                   <div className="flex gap-3 justify-start animate-fadeIn">
                     <div className="flex-shrink-0">
@@ -225,7 +346,6 @@ const formatLatexContent = (content: string) => {
                   </div>
                 )}
 
-                {/* Scroll Anchor */}
                 <div ref={bottomRef} className="h-4" />
               </div>
             </div>
@@ -233,12 +353,12 @@ const formatLatexContent = (content: string) => {
         </div>
       </div>
 
-      {/* Scroll Button */}
+      {/* Scroll to bottom button */}
       {showScrollButton && (
         <div className="absolute bottom-20 md:bottom-6 left-0 right-0 pointer-events-none flex justify-center z-50">
           <button
             onClick={scrollToBottom}
-            className="pointer-events-auto h-8 w-8 rounded-full bg-white border-1 border-[var(--color-primary-dark)] shadow-lg hover:bg-[var(--color-primary-dark)] hover:text-white hover:scale-110 transition-all flex items-center justify-center"
+            className="pointer-events-auto h-8 w-8 rounded-full bg-white border border-[var(--color-primary-dark)] shadow-lg hover:bg-[var(--color-primary-dark)] hover:text-white hover:scale-110 transition-all flex items-center justify-center"
             aria-label="Cuộn xuống"
           >
             <ArrowDown className="w-4 h-4" />

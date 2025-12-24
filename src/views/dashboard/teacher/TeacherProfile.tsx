@@ -156,11 +156,11 @@ const TeacherProfile = () => {
 
       {/* Trang profile chính */}
       {teacher && (
-        <div className="min-h-screen bg-gray-50 py-8">
-          <div className="max-w-5xl mx-auto px-4">
+        <div className="min-h-screen bg-gray-50 py-8 flex justify-center items-center ">
+          <div className="w-full max-w-5xl mx-auto px-4 ">
             {/* Header Card */}
-            <Card className="mb-6 shadow-lg">
-              <CardContent className="p-8">
+            <Card className="mb-2.5 shadow-lg ">
+              <CardContent className="p-5 md:p-8">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   {/* Avatar */}
                   <div className="relative">
@@ -232,11 +232,11 @@ const TeacherProfile = () => {
             </Card>
 
             {/* Main Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
               {/* Left Sidebar */}
-              <div className="space-y-6">
+              <div className="space-y-2.5">
                 {/* Hoàn thiện hồ sơ */}
-                <Card>
+                <Card className="p-0">
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-gray-900 mb-4">
                       Hoàn thiện hồ sơ
@@ -260,7 +260,7 @@ const TeacherProfile = () => {
 
                 {/* Giới thiệu */}
                 {teacher.bio && (
-                  <Card>
+                  <Card className="p-0">
                     <CardContent className="p-6">
                       <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                         <User className="w-5 h-5" />
@@ -274,7 +274,7 @@ const TeacherProfile = () => {
                 )}
 
                 {/* Liên hệ */}
-                <Card>
+                <Card className="p-0">
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                       <Mail className="w-5 h-5" />
@@ -299,9 +299,9 @@ const TeacherProfile = () => {
               </div>
 
               {/* Right Main Area */}
-              <div className="lg:col-span-2 space-y-6">
+              <div className="lg:col-span-2 space-y-2.5">
                 {/* Thông tin giảng dạy */}
-                <Card>
+                <Card className="p-0">
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-gray-900 mb-5 flex items-center gap-2">
                       <BookOpen className="w-5 h-5" />
@@ -355,7 +355,7 @@ const TeacherProfile = () => {
                 </Card>
 
                 {/* Hoạt động */}
-                <Card>
+                <Card className="p-0">
                   <CardContent className="p-6">
                     <h3 className="font-semibold text-gray-900 mb-5 flex items-center gap-2">
                       <Calendar className="w-5 h-5" />

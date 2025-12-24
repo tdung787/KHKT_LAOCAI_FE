@@ -16,10 +16,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axiosInstance from "@/infra/api/conflig/axiosInstance";
-import { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/utility";
 import { useNavigate } from "react-router";
+import { VALID_CLASSES } from ".";
+import { handleApiError } from "@/utility/lib/errorHandler";
 // Interface TypeScript rõ ràng, đơn giản, dễ hiểu - đúng kiểu gửi lên backend
 interface CreateProfileFormData {
   student_code: string;
@@ -69,6 +70,7 @@ const CreateProfileStudent: FC<CreateProfileStudentProps> = ({ onSuccess }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<CreateProfileFormData>({
     resolver: zodResolver(createProfileSchema),
     defaultValues: {
@@ -82,6 +84,12 @@ const CreateProfileStudent: FC<CreateProfileStudentProps> = ({ onSuccess }) => {
     },
   });
 
+  const selectedGrade = watch("grade_level");
+
+  const filteredClasses = VALID_CLASSES.filter((cls) =>
+    cls.startsWith(`${selectedGrade} `)
+  );
+
   const onSubmit = async (data: CreateProfileFormData) => {
     setIsLoading(true);
     try {
@@ -91,24 +99,13 @@ const CreateProfileStudent: FC<CreateProfileStudentProps> = ({ onSuccess }) => {
         icon: "🎉",
         duration: 4000,
       });
-      // Trong CreateProfileStudent component, sau khi tạo thành công:
 
       reset();
-
-      // Gọi callback để cha biết là thành công
       onSuccess?.();
-    } catch (err: unknown) {
-      let message = "Có lỗi xảy ra khi tạo profile. Vui lòng thử lại.";
+    } catch (err) {
+      const error = handleApiError(err);
 
-      // Type guard: kiểm tra nếu là AxiosError
-      if (err instanceof AxiosError && err.response?.data?.message) {
-        message = err.response.data.message;
-      } else if (err instanceof Error) {
-        message = err.message;
-      }
-
-      toast.error(message, { duration: 5000 });
-      console.error("Create profile error:", err);
+      toast.error(error.message, { duration: 5000 });
     } finally {
       setIsLoading(false);
     }
@@ -213,33 +210,27 @@ const CreateProfileStudent: FC<CreateProfileStudentProps> = ({ onSuccess }) => {
           </div>
 
           {/* Khối lớp + Lớp hiện tại */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Khối lớp <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <BookOpen className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="number"
-                  min={10}
-                  max={12}
-                  {...register("grade_level", { valueAsNumber: true })} // Quan trọng: convert string → number
+                <select
+                  {...register("grade_level", { valueAsNumber: true })}
                   disabled={isLoading}
-                  className={[
-                    "w-full pl-12 pr-4 py-3 rounded-xl bg-gray-50 text-gray-900 border-2 transition-all",
-                    errors.grade_level
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200 hover:border-gray-300",
-                    "focus:outline-none focus:bg-white focus:border-[#00994C]",
-                  ].join(" ")}
-                />
+                  className={`w-full pl-12 pr-4 py-3 rounded-xl border-2 bg-gray-50 focus:bg-white focus:border-[#00994C] outline-none ${
+                    errors.grade_level ? "border-red-300" : "border-gray-200"
+                  }`}
+                >
+                  <option value={10}>Khối 10</option>
+                  <option value={11}>Khối 11</option>
+                  <option value={12}>Khối 12</option>
+                </select>
               </div>
               {errors.grade_level && (
-                <p className="text-red-600 text-xs mt-2 flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-red-600"></span>
-                  {errors.grade_level.message}
-                </p>
+                <p className="text-red-600 text-xs mt-1">{errors.grade_level.message}</p>
               )}
             </div>
 
@@ -249,24 +240,22 @@ const CreateProfileStudent: FC<CreateProfileStudentProps> = ({ onSuccess }) => {
               </label>
               <div className="relative">
                 <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
+                <select
                   {...register("current_class")}
-                  placeholder="12A7"
-                  disabled={isLoading}
-                  className={[
-                    "w-full pl-12 pr-4 py-3 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 border-2 transition-all",
-                    errors.current_class
-                      ? "border-red-300 bg-red-50"
-                      : "border-gray-200 hover:border-gray-300",
-                    "focus:outline-none focus:bg-white focus:border-[#00994C]",
-                  ].join(" ")}
-                />
+                  disabled={isLoading || filteredClasses.length === 0}
+                  className={`w-full pl-12 pr-4 py-3 rounded-xl border-2 bg-gray-50 focus:bg-white focus:border-[#00994C] outline-none ${
+                    errors.current_class ? "border-red-300" : "border-gray-200"
+                  }`}
+                >
+                  {filteredClasses.map((cls) => (
+                    <option key={cls} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
               </div>
               {errors.current_class && (
-                <p className="text-red-600 text-xs mt-2 flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-red-600"></span>
-                  {errors.current_class.message}
-                </p>
+                <p className="text-red-600 text-xs mt-1">{errors.current_class.message}</p>
               )}
             </div>
           </div>

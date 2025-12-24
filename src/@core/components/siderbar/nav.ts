@@ -71,7 +71,7 @@ export const adminNavLinks: NavLink[] = [
 export const teacherNavLinks: NavLink[] = [
  
   {
-    title: "Quản lý Lớp học của tôi",
+    title: "Lớp học của tôi",
     href: "/teacher/dashboard/classes",
     icon: BookOpen,
     checkRoll: ["teacher"],
@@ -89,7 +89,7 @@ export const teacherNavLinks: NavLink[] = [
   //   checkRoll: ["teacher"],
   // },
   {
-    title: "Mô hình tài liệu học tập",
+    title: "Model dữ liệu học tập",
     href: "/teacher/dashboard/datasets-models",
     icon: Database,
     checkRoll: ["teacher"],
@@ -98,6 +98,12 @@ export const teacherNavLinks: NavLink[] = [
     title: "Công cụ datasets AI",
     href: "/teacher/dashboard/datasets",
     icon: Brain,
+    checkRoll: ["teacher"],
+  },
+   {
+    title: "Trợ giúp AI",
+    href: "/teacher/dashboard/ai-tutors",
+    icon: Bot,
     checkRoll: ["teacher"],
   },
 ];

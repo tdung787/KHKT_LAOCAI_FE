@@ -1,5 +1,5 @@
 // services/auth.service.ts
-import axiosInstance from '@/infra/api/conflig/axiosInstance';
+import axiosInstance from '@/infra/api/conflig/axiosInstanceold';
 // types/auth.types.ts
 export interface RegisterRequest {
   username: string;

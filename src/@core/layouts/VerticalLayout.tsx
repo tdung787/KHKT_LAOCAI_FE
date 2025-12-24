@@ -37,9 +37,13 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
   );
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const location = useLocation(); // 👈 Lấy URL hiện tại
+  const location = useLocation(); 
   const isAITutorPage = location.pathname.includes(
     "/student/dashboard/ai-tutors"
+  );
+
+  const isAITutorPage1 = location.pathname.includes(
+    "/teacher/dashboard/ai-tutors"
   );
   // console.log("isAITutorPageisAITutorPageisAITutorPage",isAITutorPage);
 
@@ -152,7 +156,7 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
         {navbar && (
           <>
             {/* Navbar cho trang AI Tutor - Màu đỏ */}
-            {isAITutorPage && (
+            {(isAITutorPage || isAITutorPage1) && (
               <header
                 className={`
                    sm:hidden
@@ -172,7 +176,7 @@ const VerticalLayout: FC<VerticalLayoutProps> = ({
             )}
 
             {/* Navbar cho các trang khác - Logic cũ */}
-            {!isAITutorPage && (
+            {!isAITutorPage && !isAITutorPage1 && (
               <header
                 className={`
           sticky rounded-xl z-30

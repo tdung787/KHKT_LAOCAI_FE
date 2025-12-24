@@ -196,6 +196,10 @@ export const appRoutes: RouteObject[] = [
            {
             path: "notifications",
             element: <NotificationPage />,
+          },
+           {
+            path: "ai-tutors",
+            element: <StudentAITutors />,
           }
         ],
       },
