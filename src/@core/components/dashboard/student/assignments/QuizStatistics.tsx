@@ -271,7 +271,7 @@ const QuizStatistics = ({ quizzes, submissions }: QuizStatisticsProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Điểm trung bình</p>
-                <p className="text-3xl font-bold text-[var(--color-primary-light)]">
+                <p className="text-3xl font-bold text-green-600">
                   {statistics.averageScore.toFixed(2)}
                 </p>
               </div>

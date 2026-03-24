@@ -189,7 +189,7 @@ const Login: FC = () => {
           {/* Divider */}
           <div className="border-t border-white/10 pt-5">
             <p className="text-center text-xs text-white/60">
-              © 2025 Trường THPT Chuyên Nguyễn Tất Thành, Lào Cai
+              © 2025 Trường Đại học Kỹ thuật Công nghiệp Thái Nguyên
             </p>
           </div>
         </div>

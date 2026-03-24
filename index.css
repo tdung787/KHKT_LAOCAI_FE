@@ -35,20 +35,20 @@
 
 /* Use the @theme directive to add your customizations */
 @theme {
-  /* Custom colors - Based on your gradient */
-  --color-primary-light: #A61D37; /* Đỏ đậm — màu chính */
-  --color-primary-dark: #8a1a30; /* Đỏ tối hơn */
-  --color-secondary: #2e5288; /* Xanh dương */
-  --color-accent: #2e5288; /* Xanh dương */
+  /* Custom colors - Updated to new brand colors */
+  --color-primary-light: #A61D37; 
+  --color-secondary: #2e5288; 
+  --color-accent: #2e5288; 
+  --color-primary-dark: #8a1a30; 
 
   /* Light mode backgrounds */
-  --bg-light-start: #fff5f7; /* Hồng rất nhạt */
-  --bg-light-end: #f0f4f8; /* Xanh rất nhạt */
+  --bg-light-start: #fff5f7; /* Very light red */
+  --bg-light-end: #f0f4f8; /* Very light blue */
 
   /* Dark mode backgrounds */
-  --bg-dark-start: #2f0a13; /* Đỏ tối */
-  --bg-dark-mid: #1a2a3d; /* Xanh tối */
-  --bg-dark-end: #0a1929; /* Xanh rất tối */
+  --bg-dark-start: #2f0a13; /* Dark red */
+  --bg-dark-mid: #1a2a3d; /* Dark blue */
+  --bg-dark-end: #0a1929; /* Darker blue */
 
   /* ===== DARK MODE COLORS ===== */
   /* Tailwind v4 tự động support dark mode với class */
@@ -667,7 +667,6 @@
   height: 40px;
   background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
   border-radius: 0.5rem;
-
 }
 
 .tv-stand-base {
@@ -968,7 +967,7 @@
 /* Footer Container */
 .footer-container {
   position: relative;
-  background: linear-gradient(135deg, #00994c 0%, #008c8c 50%, #0077cc 100%);
+  background: linear-gradient(135deg, #A61D37 0%, #2e5288 100%);
   color: white;
   overflow: hidden;
 }
@@ -981,26 +980,6 @@
   background-size: 200px 200px;
   pointer-events: none;
 }
-
-/* Add actual icons using ::before and ::after */
-/* .footer-pattern-bg::before {
-  content: "⚛️ 🧬 🔬 ⚗️ 🧪 📐 ∑ π ∫ √ Δ α β θ ∞ Ω H₂O CO₂ NaCl DNA RNA";
-  position: absolute;
-  top: 10%;
-  left: 5%;
-  right: 5%;
-  font-size: 2.5rem;
-  word-spacing: 3rem;
-  line-height: 4rem;
-  color: rgba(255, 255, 255, 0.15);
-  text-align: justify;
-  white-space: normal;
-  overflow: hidden;
-  height: 80%;
-  animation: patternFloat 30s linear infinite;
-  pointer-events: none;
-  user-select: none;
-} */
 
 .footer-pattern-bg::after {
   content: "Fe Cu Ag Au Pt He Ne Ar Kr Xe C H O N S P Cl Br I F";
@@ -1093,13 +1072,13 @@
   left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(to bottom, #00994c, #008c8c);
+  background: linear-gradient(to bottom, #A61D37, #2e5288);
   transition: width 0.3s ease;
 }
 
 .member-card:hover {
   transform: translateX(8px);
-  box-shadow: 0 8px 24px rgba(0, 153, 76, 0.2);
+  box-shadow: 0 8px 24px rgba(166, 29, 55, 0.2);
 }
 
 .member-card:hover::before {
@@ -1131,11 +1110,11 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00994c, #008c8c);
+  background: linear-gradient(135deg, #A61D37, #2e5288);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 153, 76, 0.3);
+  box-shadow: 0 4px 12px rgba(166, 29, 55, 0.3);
   flex-shrink: 0;
   transition: all 0.3s ease;
 }
@@ -1424,9 +1403,9 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: rgba(166, 29, 55, 0.9) !important;
-  border: 2px solid rgba(255, 255, 255, 0.3) !important;
-  color: white !important;
+  background: rgba(166, 29, 55, 0.9) ;
+  border: 2px solid rgba(255, 255, 255, 0.3) ;
+  color: white ;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1445,9 +1424,9 @@
 
 .carousel-previous:hover,
 .carousel-next:hover {
-  background: linear-gradient(135deg, #A61D37, #2e5288) !important;
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 20px rgba(166, 29, 55, 0.6);
+  background: rgba(166, 29, 55, 1);
 }
 
 .carousel-previous:disabled,
@@ -1475,7 +1454,7 @@
 }
 
 .carousel-indicator.active {
-  background: linear-gradient(135deg, #00994c, #008c8c);
+  background: linear-gradient(135deg, #A61D37, #2e5288);
   border-color: white;
   transform: scale(1.3);
 }
@@ -1522,7 +1501,7 @@
   .carousel-next {
     width: 2rem;
     height: 2rem;
-    background: rgba(0, 153, 76, 0.7) !important;
+    background: rgba(166, 29, 55, 0.7) !important;
   }
 
   .carousel-previous {
@@ -1550,7 +1529,7 @@
   justify-content: center;
   overflow: hidden;
   box-shadow: 
-    0 20px 60px rgba(0, 153, 76, 0.1),
+    0 20px 60px rgba(166, 29, 55, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -1558,7 +1537,7 @@
 .ai-brain-center {
   position: relative;
   z-index: 10;
-  filter: drop-shadow(0 10px 30px rgba(0, 153, 76, 0.2));
+  filter: drop-shadow(0 10px 30px rgba(166, 29, 55, 0.2));
 }
 
 .ai-brain-center img {
@@ -1590,9 +1569,8 @@
   height: 300px;
   background: radial-gradient(
     circle,
-    rgba(0, 153, 76, 0.3) 0%,
-    rgba(0, 140, 140, 0.2) 30%,
-    rgba(0, 119, 204, 0.1) 60%,
+    rgba(166, 29, 55, 0.3) 0%,
+    rgba(46, 82, 136, 0.2) 50%,
     transparent 100%
   );
   border-radius: 50%;
@@ -1604,13 +1582,13 @@
 .ai-brain-corner {
   position: absolute;
   z-index: 5;
-  filter: drop-shadow(0 8px 20px rgba(0, 153, 76, 0.15));
+  filter: drop-shadow(0 8px 20px rgba(166, 29, 55, 0.15));
   transition: all 0.3s ease;
 }
 
 .ai-brain-corner:hover {
   transform: scale(1.1);
-  filter: drop-shadow(0 20px 30px rgba(5, 182, 93, 0.5));
+  filter: drop-shadow(0 20px 30px rgba(166, 29, 55, 0.5));
 }
 
 .ai-brain-corner img {
@@ -1721,11 +1699,11 @@
   position: absolute;
   width: 5px;
   height: 5px;
-  background: linear-gradient(135deg, #00994c, #008c8c);
+  background: linear-gradient(135deg, #A61D37, #2e5288);
   border-radius: 50%;
   animation: particleFloat 5s ease-in-out infinite;
   opacity: 0;
-  box-shadow: 0 0 10px rgba(0, 153, 76, 0.5);
+  box-shadow: 0 0 10px rgba(166, 29, 55, 0.5);
 }
 
 @keyframes particleFloat {
@@ -1910,7 +1888,7 @@
 .hover-card-content {
   z-index: 9999 !important;
   background: white !important;
-  border: 1px solid rgba(0, 153, 76, 0.2) !important;
+  border: 1px solid rgba(166, 29, 55, 0.2) !important;
   border-radius: 0.75rem !important;
   padding: 1rem !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;

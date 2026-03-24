@@ -112,7 +112,7 @@ export const columns: ColumnDef<Student>[] = [
   header: () => <div className="hidden md:block">Trường</div>,
   cell: () => (
     <span className="hidden md:inline text-sm text-gray-600 dark:text-gray-400">
-    Nguyễn Tất Thành
+    ĐHKTCN Thái Nguyên
     </span>
   ),
 },

@@ -317,7 +317,7 @@ const ChatInput = ({ onSendMessage, isLoading = false }: ChatInputProps) => {
               type="button"
               onClick={handleSend}
               disabled={(!message.trim() && !image) || isLoading}
-              className="h-10 w-10 bg-gradient-to-r from-[var(--color-primary-light)] to-green-950 hover:from-[var(--color-primary-dark)] hover:to-[var(--color-primary-light)]"
+              className="h-10 w-10 bg-gradient-to-r from-[var(--color-primary-light)] to-[#2e5288] hover:from-[var(--color-primary-dark)] hover:to-[var(--color-primary-light)]"
               size="icon"
               title="Gửi tin nhắn"
             >

@@ -206,7 +206,7 @@ const CreateProfileTeacher: FC<CreateProfileTeacherProps> = ({ onSuccess }) => {
               <School className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 {...register("school_name")}
-                placeholder="THCS Nguyễn Tất Thành"
+                placeholder="Trường Đại học Kỹ thuật Công nghiệp Thái Nguyên"
                 disabled={isLoading}
                 className={[
                   "w-full pl-12 pr-4 py-3 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400 border-2 transition-all",

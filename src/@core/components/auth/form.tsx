@@ -47,7 +47,7 @@ const FormLogin: FC = () => {
     <div className="w-full max-w-sm mx-auto">
       {/* Header with Bot Icon */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00994C] to-[#0077CC] mb-4 shadow-lg">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#A61D37] to-[#2e5288] mb-4 shadow-lg">
           <Bot className="w-8 h-8 text-white" />
         </div>
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -91,7 +91,7 @@ const FormLogin: FC = () => {
                 className={[
                   'w-full pl-11 pr-4 py-2.5 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-400',
                   'border-2 transition-all duration-200',
-                  'focus:outline-none focus:bg-white focus:border-[#00994C]',
+                  'focus:outline-none focus:bg-white focus:border-[#A61D37]',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
                   errors.email || getFieldError(error, 'email') 
                     ? 'border-red-300 bg-red-50' 
@@ -129,7 +129,7 @@ const FormLogin: FC = () => {
                 className={[
                   'w-full pl-11 pr-12 py-2.5 rounded-lg bg-gray-50 text-gray-900 placeholder-gray-400',
                   'border-2 transition-all duration-200',
-                  'focus:outline-none focus:bg-white focus:border-[#00994C]',
+                  'focus:outline-none focus:bg-white focus:border-[#A61D37]',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
                   errors.password || getFieldError(error, 'password')
                     ? 'border-red-300 bg-red-50'
@@ -169,7 +169,7 @@ const FormLogin: FC = () => {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
                 disabled={isLoading}
-                className="h-4 w-4 rounded border-gray-300 text-[#00994C] focus:ring-2 focus:ring-[#00994C]/20 disabled:cursor-not-allowed"
+                className="h-4 w-4 rounded border-gray-300 text-[#A61D37] focus:ring-2 focus:ring-[#A61D37]/20 disabled:cursor-not-allowed"
               />
               <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
                 Ghi nhớ đăng nhập
@@ -178,7 +178,7 @@ const FormLogin: FC = () => {
 
             <a
               href="/forgot-password"
-              className="text-sm text-[#00994C] hover:text-[#007a3d] font-medium transition-colors"
+              className="text-sm text-[#A61D37] hover:text-[#8a1a30] font-medium transition-colors"
             >
               Quên mật khẩu?
             </a>
@@ -188,7 +188,7 @@ const FormLogin: FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full mt-6 py-3 rounded-lg bg-gradient-to-r from-[#00994C] to-[#0077CC] text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#00994C]/50 focus:ring-offset-2 disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+            className="w-full mt-6 py-3 rounded-lg bg-gradient-to-r from-[#A61D37] to-[#2e5288] text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#A61D37]/50 focus:ring-offset-2 disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="flex items-center justify-center gap-2">
@@ -261,7 +261,7 @@ const FormLogin: FC = () => {
       {/* Footer */}
       <p className="text-center mt-6 text-sm text-gray-600">
         Chưa có tài khoản?{' '}
-        <a href="/register" className="text-[#00994C] hover:text-[#007a3d] font-semibold transition-colors">
+        <a href="/register" className="text-[#A61D37] hover:text-[#8a1a30] font-semibold transition-colors">
           Đăng ký ngay
         </a>
       </p>

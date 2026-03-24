@@ -215,7 +215,7 @@ const ChatContent = ({ messages, isLoading = false }: ChatContentProps) => {
                       <Card
                         className={`p-4 w-full relative group ${
                           message.role === "user"
-                            ? "bg-gradient-to-r from-[var(--color-primary-light)] to-green-900 text-white"
+                            ? "bg-gradient-to-r from-[var(--color-primary-light)] to-[#2e5288] text-white"
                             : "bg-white shadow-md"
                         }`}
                       >

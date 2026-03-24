@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/popover";
 import { getRoleDefaultPath } from "../navbar/getRoleDefaultPath";
 
-import logo from "../../../../public/image/logo/logoISTA.png";
+import logo from "../../../../public/image/logo/logoTNUT.png";
 import logo2 from "../../../../public/image/logo/logoMobile.png";
 
 const Sidebar: FC<SidebarProps> = ({ isCollapsed, onCollapse, userRole }) => {
@@ -125,7 +125,7 @@ const Sidebar: FC<SidebarProps> = ({ isCollapsed, onCollapse, userRole }) => {
                   }
                   ${
                     isActive(link)
-                      ? "bg-gradient-to-r from-[#00994C] via-[#008C8C] to-[#0077CC] text-white shadow-md"
+                      ? "bg-gradient-to-r from-[#A61D37] to-[#2e5288] text-white shadow-md"
                       : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800"
                   }
                   ${isCollapsed ? "justify-center" : "justify-between"}
@@ -173,7 +173,7 @@ const Sidebar: FC<SidebarProps> = ({ isCollapsed, onCollapse, userRole }) => {
                             className={({ isActive }) =>
                               `block px-4 py-2 rounded-lg transition-all duration-200 capitalize text-sm ${
                                 isActive
-                                  ? "bg-teal-50 dark:bg-slate-800 text-[#008C8C] dark:text-[#00994C] font-medium"
+                                  ? "bg-red-50 dark:bg-slate-800 text-[#A61D37] dark:text-[#A61D37] font-medium"
                                   : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800/50"
                               }`
                             }

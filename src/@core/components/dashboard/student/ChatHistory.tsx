@@ -26,7 +26,7 @@ const ChatHistory = ({
   return (
     <aside className="h-full bg-white border-r border-gray-200 flex flex-col shadow-lg">
       {/* Header */}
-      <div className="flex-shrink-0 p-4 border-b bg-gradient-to-r from-[var(--color-primary-light)] to-green-900">
+      <div className="flex-shrink-0 p-4 border-b bg-gradient-to-r from-[var(--color-primary-light)] to-[#2e5288]">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-white rounded-lg">
             <Bot className="w-6 h-6 text-[var(--color-primary-dark)]" />
@@ -64,7 +64,7 @@ const ChatHistory = ({
               sessions.map((session) => (
                 <div
                   key={session.id}
-                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-green-50 group relative sm:px-2 px-5 sm:py-0 py-3  ${
+                  className={`cursor-pointer transition-all duration-200 hover:shadow-md hover:bg-red-50 group relative sm:px-2 px-5 sm:py-0 py-3  ${
                     currentSessionId === session.id
                       ? "bg-gradient-to-r from-[var(--color-primary-light)]/10 to-[var(--color-secondary)]/10 border-2 border-[var(--color-primary-light)] shadow-sm"
                       : " hover:border-[var(--color-primary-light)]/30"
@@ -74,7 +74,7 @@ const ChatHistory = ({
                   <div className="flex items-center gap-2 sm:gap-3">
                     <div className="flex-1 min-w-0">
                       {/* Title */}
-                      <h3 className="font-medium text-sm sm:text-base truncate text-green-950 py-1.5">
+                      <h3 className="font-medium text-sm sm:text-base truncate text-[#A61D37] py-1.5">
                         {truncateText(session.title, 25)}
                       </h3>
 
