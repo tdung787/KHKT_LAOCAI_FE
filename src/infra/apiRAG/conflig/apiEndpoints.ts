@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
   RAG: {
     CREATE_SESSIONS: (userId: string) => `/session/create?student_id=${userId}`,
     RAG_QUERY: "/rag/query",
+    CHAT_STREAM: "/chat/stream",
     GET_SESSION_HISTORY: (student_id: string) =>
       `/session/list?student_id=${student_id}`,
     GET_SESSION_DETAIL: (session_id: string, student_id: string) =>

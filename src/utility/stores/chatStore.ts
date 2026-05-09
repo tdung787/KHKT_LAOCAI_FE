@@ -2,7 +2,6 @@ import { create } from "zustand";
 import chatbotAPI from "@/infra/apiRAG/chatbot/chatbotAPI";
 import {
   ICreateSessionResponse,
-  IRagQueryResponse,
   ISessionHistoryResponse,
   ISessionDetailResponse,
   ISessionItem,
@@ -121,81 +120,57 @@ export const useChatBotStore = create<ChatBotState>()((set, get) => ({
  * 🔹 Gửi tin nhắn và nhận phản hồi - WITH OPTIMISTIC UPDATE
  */
 sendMessage: async (sessionId: string, userInput: string, studentId: string, image?: File) => {
+  set({ isSending: true, error: null });
+
+  const localImagePreview = image ? URL.createObjectURL(image) : undefined;
+
+  const optimisticMessage: IConversationPair = {
+    user: {
+      content: userInput,
+      timestamp: new Date().toISOString(),
+      image: localImagePreview,
+    },
+    chatbot: {
+      content: "",
+      timestamp: new Date().toISOString(),
+    },
+  };
+
+  set({ conversation: [...get().conversation, optimisticMessage] });
+
   try {
-    set({ isSending: true, error: null });
+    const stream = chatbotAPI.sendMessageStream(sessionId, userInput, studentId, true, 7, image);
 
-    // ✅ 1. Tạo preview URL local cho ảnh
-    const localImagePreview = image ? URL.createObjectURL(image) : undefined;
-
-    // ✅ 2. OPTIMISTIC UPDATE - Hiển thị message của user ngay lập tức
-    const optimisticMessage: IConversationPair = {
-      user: {
-        content: userInput,
-        timestamp: new Date().toISOString(),
-        image: localImagePreview,
-      },
-      chatbot: {
-        content: "", // Placeholder, sẽ update sau
-        timestamp: new Date().toISOString(),
-      },
-    };
-
-    // Thêm message tạm vào conversation
-    set({
-      conversation: [...get().conversation, optimisticMessage],
-    });
-
-    // ✅ 3. Gọi API
-    const response: IRagQueryResponse = await chatbotAPI.sendMessage(
-      sessionId,
-      userInput,
-      studentId,
-      image
-    );
-
-    // ✅ 4. Parse user_input từ backend
-    const parsed = parseUserInput(response.user_input);
-
-    // ✅ 5. Update lại message với data thật từ server
-    const updatedMessage: IConversationPair = {
-      user: {
-        content: parsed.content, // Text đã parse
-        timestamp: new Date().toISOString(),
-        image: parsed.image || localImagePreview, // Ưu tiên server URL
-      },
-      chatbot: {
-        content: response.response,
-        timestamp: new Date().toISOString(),
-      },
-    };
-
-    // Replace optimistic message với message thật
-    set((state) => ({
-      conversation: [
-        ...state.conversation.slice(0, -1), // Remove optimistic message
-        updatedMessage, // Add real message
-      ],
-      isSending: false,
-    }));
-
-    // Cập nhật message_count
-    if (get().currentSession) {
-      set({
-        currentSession: {
-          ...get().currentSession!,
-          session: {
-            ...get().currentSession!.session,
-            message_count: get().currentSession!.session.message_count + 1,
-          },
-        },
-      });
+    for await (const chunk of stream) {
+      if (!chunk.done) {
+        set((state) => {
+          const conv = [...state.conversation];
+          const last = { ...conv[conv.length - 1] };
+          last.chatbot = { ...last.chatbot, content: last.chatbot.content + chunk.content };
+          conv[conv.length - 1] = last;
+          return { conversation: conv };
+        });
+      } else {
+        if (get().currentSession) {
+          set({
+            currentSession: {
+              ...get().currentSession!,
+              session: {
+                ...get().currentSession!.session,
+                message_count: get().currentSession!.session.message_count + 1,
+              },
+            },
+          });
+        }
+      }
     }
+
+    set({ isSending: false });
   } catch (error) {
     const apiError = handleApiError(error);
 
-    // ✅ Rollback optimistic update nếu lỗi
     set((state) => ({
-      conversation: state.conversation.slice(0, -1), // Remove failed message
+      conversation: state.conversation.slice(0, -1),
       isSending: false,
       error: apiError,
     }));

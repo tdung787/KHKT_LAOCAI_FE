@@ -1,5 +1,8 @@
 import axiosInstance from "../conflig/axiosInstance";
 import { API_ENDPOINTS } from "../conflig/apiEndpoints";
+import { storage } from "@/utility/lib/storage";
+
+const RAG_BASE_URL = import.meta.env.VITE_API_RAG_URL || "http://14.225.211.7:8110/api";
 
 class ChatBotAPI {
   /**
@@ -69,6 +72,59 @@ async sendMessage(session_id: string, user_input: string, student_id: string, im
       API_ENDPOINTS.RAG.DELETE_SESSION(session_id, student_id)
     );
     return response.data;
+  }
+
+  async *sendMessageStream(
+    session_id: string,
+    question: string,
+    student_id: string,
+    use_bm25 = true,
+    top_k = 7,
+    image?: File
+  ): AsyncGenerator<{ content: string; done: boolean; sources?: unknown[]; session?: unknown }> {
+    const formData = new FormData();
+    formData.append("session_id", session_id);
+    formData.append("student_id", student_id);
+    formData.append("question", question);
+    formData.append("use_bm25", String(use_bm25));
+    formData.append("top_k", String(top_k));
+    if (image) formData.append("image", image);
+
+    const token = storage.getToken();
+    const response = await fetch(`${RAG_BASE_URL}${API_ENDPOINTS.RAG.CHAT_STREAM}`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const reader = response.body!.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = JSON.parse(line.slice(6));
+            yield data;
+            if (data.done) return;
+          }
+        }
+      }
+    } finally {
+      reader.releaseLock();
+    }
   }
 
 }
