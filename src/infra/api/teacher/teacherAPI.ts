@@ -7,9 +7,10 @@ class ClassAPI {
   /**
    * Lấy danh sách comments theo blogId
    */
-  async getClassesByTeacher(teacherId: string): Promise<IClassResponse> {
+  async getClassesByTeacher(_teacherId: string): Promise<IClassResponse> {
     const response = await axiosInstance.get<IClassResponse>(
-      API_ENDPOINTS.CLASSES.GETCLASSBYTEACCHER(teacherId)
+      API_ENDPOINTS.CLASSES.GET_ALL,
+      { params: { project_access: 2 } }
     );
     return response.data;
   }

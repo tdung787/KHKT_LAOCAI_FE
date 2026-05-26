@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
   // Classes
   CLASSES: {
     GETCLASSBYTEACCHER: (teacherId: string) => `/private/classes/teacher/${teacherId}`,
+    GET_ALL: "/classes",
   },
 
   // Teacher

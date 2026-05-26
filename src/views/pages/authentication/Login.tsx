@@ -51,7 +51,7 @@ const Login: FC = () => {
                   Đại học Thái Nguyên
                 </p>
                 <h2 className="text-[10px] md:text-xs lg:text-base font-semibold uppercase">
-                  Trường Đại học Kỹ thuật Công nghiệp Thái Nguyên
+                  Trường Đại học Kỹ thuật Công nghiệp
                 </h2>
                 <p className="text-[9px] md:text-[10px] lg:text-sm font-light uppercase">
                   Thai Nguyen University of Technology

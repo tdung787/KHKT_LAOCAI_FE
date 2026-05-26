@@ -23,9 +23,9 @@ export default function Player() {
     <div className="player-wrapper">
       {/* Title Section */}
       <div className="player-header">
-        <h2 className="player-title">Hệ Thống Gia Sư AI TNUT - ĐHKTCN</h2>
+        <h2 className="player-title">Hệ thống gia sư AI TNUT</h2>
         <p className="player-subtitle">
-          Trợ thủ đắc lực cho học sinh và giáo viên
+          Trợ thủ đắc lực cho sv và gv
         </p>
       </div>
 
