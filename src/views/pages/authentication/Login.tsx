@@ -66,9 +66,9 @@ const Login: FC = () => {
           <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div className="flex items-center justify-between py-3">
               <nav className="hidden md:flex items-center gap-4 lg:gap-8">
-                <a href="#" className="text-white text-sm font-medium hover:text-yellow-300 transition-colors duration-200 px-2 py-1">Giới thiệu</a>
+                {/* <a href="#" className="text-white text-sm font-medium hover:text-yellow-300 transition-colors duration-200 px-2 py-1">Giới thiệu</a>
                 <a href="#" className="text-white text-sm font-medium hover:text-yellow-300 transition-colors duration-200 px-2 py-1">Tra cứu</a>
-                <a href="#" className="text-white text-sm font-medium hover:text-yellow-300 transition-colors duration-200 px-2 py-1">Liên hệ</a>
+                <a href="#" className="text-white text-sm font-medium hover:text-yellow-300 transition-colors duration-200 px-2 py-1">Liên hệ</a> */}
               </nav>
               <div className="hidden md:flex items-center gap-2 text-white">
                 <svg className="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
